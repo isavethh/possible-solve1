@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - Predictive Urban & Local Sensing Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="mosquito-grid"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <span class="logo-text">PULSE<span class="accent">DENGUE</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#problem">Problem</a>
+                <a href="#solution">Solution</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#impact">Impact</a>
+                <a href="#team">Team</a>
+            </div>
+            <a href="#contact" class="nav-cta">Join the Mission</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-award"></i>
+                MIT SOLVE - Future Health Challenge 2026
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">Predicting Dengue Outbreaks</span>
+                <br>Before Hospitals Overflow
+            </h1>
+            <p class="hero-subtitle">
+                Transforming community pharmacies into an intelligent early warning network 
+                that predicts dengue, chikungunya, and Zika outbreaks <strong>2-3 weeks before</strong> 
+                they overwhelm health systems.
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">2-3</div>
+                    <div class="stat-label">Weeks Early Detection</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Prediction Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500M+</div>
+                    <div class="stat-label">People at Risk Globally</div>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="#solution" class="btn-primary">
+                    <i class="fas fa-play"></i>
+                    See How It Works
+                </a>
+                <a href="#contact" class="btn-secondary">
+                    <i class="fas fa-handshake"></i>
+                    Partner With Us
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="dashboard-preview">
+                <div class="dashboard-header">
+                    <div class="dashboard-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="dashboard-title">PULSE DENGUE - Live Dashboard</span>
+                </div>
+                <div class="dashboard-content">
+                    <div class="map-container">
+                        <div class="city-map">
+                            <div class="zone zone-safe" style="top: 60%; left: 20%;">
+                                <div class="zone-pulse"></div>
+                            </div>
+                            <div class="zone zone-warning" style="top: 30%; left: 50%;">
+                                <div class="zone-pulse"></div>
+                            </div>
+                            <div class="zone zone-danger" style="top: 40%; left: 75%;">
+                                <div class="zone-pulse"></div>
+                                <div class="alert-badge">!</div>
+                            </div>
+                            <div class="zone zone-safe" style="top: 70%; left: 60%;">
+                                <div class="zone-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-panel">
+                        <div class="alert-item danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>North Zone - HIGH RISK</strong>
+                                <span>85% outbreak probability in 7 days</span>
+                            </div>
+                        </div>
+                        <div class="alert-item warning">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div>
+                                <strong>East Zone - MODERATE</strong>
+                                <span>45% outbreak probability in 14 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">The Crisis</span>
+                <h2>A Silent Emergency Killing Thousands</h2>
+                <p>Every year, dengue fever affects millions in Latin America. By the time health systems react, it's already too late.</p>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-virus"></i>
+                    </div>
+                    <h3>500+ Million</h3>
+                    <p>People at risk of dengue infection annually worldwide</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3>Hospitals Collapse</h3>
+                    <p>Health systems only react when emergency rooms are already overwhelmed</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Weeks Too Late</h3>
+                    <p>Traditional surveillance detects outbreaks 2-4 weeks after they begin</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </div>
+                    <h3>Preventable Deaths</h3>
+                    <p>Late response means more severe cases and higher mortality rates</p>
+                </div>
+            </div>
+
+            <div class="problem-flow">
+                <div class="flow-title">Current Reality: The Reactive Death Spiral</div>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-icon"><i class="fas fa-thermometer-full"></i></div>
+                        <div class="step-content">
+                            <h4>Day 1-7</h4>
+                            <p>People get sick, stay home, self-medicate</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">
+                        <div class="step-icon"><i class="fas fa-hospital-user"></i></div>
+                        <div class="step-content">
+                            <h4>Day 8-14</h4>
+                            <p>Severe cases flood emergency rooms</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">
+                        <div class="step-icon"><i class="fas fa-file-medical"></i></div>
+                        <div class="step-content">
+                            <h4>Day 15-21</h4>
+                            <p>Official outbreak declared</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step step-bad">
+                        <div class="step-icon"><i class="fas fa-bomb"></i></div>
+                        <div class="step-content">
+                            <h4>Day 22+</h4>
+                            <p>Fumigation begins (TOO LATE)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="solution-section">
+        <div class="container">
+            <div class="section-header light">
+                <span class="section-tag">Our Innovation</span>
+                <h2>Pharmacies: The Hidden Sensors Nobody Is Using</h2>
+                <p>We transform the existing pharmacy network into an intelligent early warning system</p>
+            </div>
+
+            <div class="insight-box">
+                <div class="insight-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="insight-content">
+                    <h3>The Key Insight</h3>
+                    <p>
+                        <strong>Pharmacies see outbreaks 2-3 weeks before hospitals.</strong> 
+                        When dengue starts spreading, pharmacies notice increased sales of fever reducers, 
+                        repellents, and oral rehydration solutions. They hear customers describe symptoms. 
+                        This data exists—but nobody is using it for prediction.
+                    </p>
+                </div>
+            </div>
+
+            <div class="solution-comparison">
+                <div class="comparison-card old">
+                    <h3><i class="fas fa-times-circle"></i> Traditional Approach</h3>
+                    <ul>
+                        <li>Wait for hospital reports</li>
+                        <li>Centralized lab testing</li>
+                        <li>2-4 weeks delay</li>
+                        <li>Reactive fumigation</li>
+                        <li>High costs, low effectiveness</li>
+                    </ul>
+                </div>
+                <div class="comparison-vs">VS</div>
+                <div class="comparison-card new">
+                    <h3><i class="fas fa-check-circle"></i> PULSE DENGUE</h3>
+                    <ul>
+                        <li>Real-time pharmacy signals</li>
+                        <li>AI-powered prediction</li>
+                        <li>2-3 weeks early warning</li>
+                        <li>Preventive action</li>
+                        <li>Low cost, high impact</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">The Technology</span>
+                <h2>How PULSE DENGUE Works</h2>
+                <p>Three simple layers working together to save lives</p>
+            </div>
+
+            <div class="how-layers">
+                <!-- Layer 1 -->
+                <div class="layer">
+                    <div class="layer-number">01</div>
+                    <div class="layer-content">
+                        <div class="layer-icon">
+                            <i class="fas fa-prescription-bottle-medical"></i>
+                        </div>
+                        <h3>SENSE</h3>
+                        <h4>Community Pharmacies as Health Sensors</h4>
+                        <p>Pharmacists report daily observations through a simple 2-minute mobile app:</p>
+                        <ul>
+                            <li>Fever medication sales trends</li>
+                            <li>Repellent and antimosquito product demand</li>
+                            <li>Customer symptom inquiries</li>
+                            <li>Oral rehydration solution sales</li>
+                        </ul>
+                        <div class="layer-visual">
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <div class="app-header">
+                                        <i class="fas fa-heartbeat"></i> PULSE Report
+                                    </div>
+                                    <div class="app-content">
+                                        <div class="app-question">
+                                            <span>Fever medication sales today:</span>
+                                            <div class="app-options">
+                                                <span class="option">Normal</span>
+                                                <span class="option active">+50%</span>
+                                                <span class="option">+100%</span>
+                                            </div>
+                                        </div>
+                                        <div class="app-question">
+                                            <span>Symptom inquiries:</span>
+                                            <div class="app-options">
+                                                <span class="option">Few</span>
+                                                <span class="option">Normal</span>
+                                                <span class="option active">Many</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 2 -->
+                <div class="layer">
+                    <div class="layer-number">02</div>
+                    <div class="layer-content">
+                        <div class="layer-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>ANALYZE</h3>
+                        <h4>AI-Powered Fusion & Prediction</h4>
+                        <p>Our AI engine combines multiple data sources:</p>
+                        <div class="data-fusion">
+                            <div class="data-source">
+                                <i class="fas fa-prescription-bottle"></i>
+                                <span>Pharmacy Reports</span>
+                            </div>
+                            <div class="data-plus">+</div>
+                            <div class="data-source">
+                                <i class="fas fa-cloud-sun"></i>
+                                <span>Weather Data</span>
+                            </div>
+                            <div class="data-plus">+</div>
+                            <div class="data-source">
+                                <i class="fas fa-search"></i>
+                                <span>Search Trends</span>
+                            </div>
+                            <div class="data-plus">+</div>
+                            <div class="data-source">
+                                <i class="fas fa-history"></i>
+                                <span>Historical Data</span>
+                            </div>
+                        </div>
+                        <div class="ai-output">
+                            <div class="ai-arrow"><i class="fas fa-arrow-down"></i></div>
+                            <div class="prediction-card">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Outbreak Probability by Zone</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 3 -->
+                <div class="layer">
+                    <div class="layer-number">03</div>
+                    <div class="layer-content">
+                        <div class="layer-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>ACT</h3>
+                        <h4>Actionable Alerts for Decision Makers</h4>
+                        <p>Real-time dashboard for health authorities with:</p>
+                        <div class="action-cards">
+                            <div class="action-card">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <span>Heat maps by zone</span>
+                            </div>
+                            <div class="action-card">
+                                <i class="fas fa-bell"></i>
+                                <span>Early warning alerts</span>
+                            </div>
+                            <div class="action-card">
+                                <i class="fas fa-tasks"></i>
+                                <span>Recommended actions</span>
+                            </div>
+                            <div class="action-card">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Resource allocation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact-section">
+        <div class="container">
+            <div class="section-header light">
+                <span class="section-tag">Our Vision</span>
+                <h2>The Impact We Will Create</h2>
+                <p>Starting in Bolivia, scaling across Latin America and beyond</p>
+            </div>
+
+            <div class="impact-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2026</div>
+                    <div class="timeline-content">
+                        <h3>Pilot Launch</h3>
+                        <p>Santa Cruz, Bolivia</p>
+                        <ul>
+                            <li>20 pharmacies enrolled</li>
+                            <li>100,000 population covered</li>
+                            <li>Proof of concept validation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2027</div>
+                    <div class="timeline-content">
+                        <h3>National Scale</h3>
+                        <p>Expand across Bolivia</p>
+                        <ul>
+                            <li>500 pharmacies enrolled</li>
+                            <li>3 million population covered</li>
+                            <li>Government partnership</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2028</div>
+                    <div class="timeline-content">
+                        <h3>Regional Expansion</h3>
+                        <p>Latin America rollout</p>
+                        <ul>
+                            <li>5,000+ pharmacies</li>
+                            <li>50 million lives protected</li>
+                            <li>Multi-country partnerships</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2030</div>
+                    <div class="timeline-content">
+                        <h3>Global Impact</h3>
+                        <p>Worldwide deployment</p>
+                        <ul>
+                            <li>50,000+ pharmacies globally</li>
+                            <li>500 million lives protected</li>
+                            <li>Extended to other diseases</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="impact-metrics">
+                <div class="metric">
+                    <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                    <div class="metric-value">10,000+</div>
+                    <div class="metric-label">Lives Saved Annually (projected)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="metric-value">$50M+</div>
+                    <div class="metric-label">Healthcare Costs Prevented</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-icon"><i class="fas fa-clock"></i></div>
+                    <div class="metric-value">14 Days</div>
+                    <div class="metric-label">Earlier Intervention Average</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">The People</span>
+                <h2>Meet Our Team</h2>
+                <p>A unique combination of technology and healthcare expertise</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-card founder">
+                    <div class="team-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Isaveth Navia Guzmán</h3>
+                        <span class="team-role">Founder & CEO</span>
+                        <p>Systems Engineering student (final year). Full-stack developer with experience building apps and systems. Passionate about using technology for social impact.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Co-Founder</h3>
+                        <span class="team-role">CTO</span>
+                        <p>Technology partner focused on AI/ML development and data architecture.</p>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Medical Advisor</h3>
+                        <span class="team-role">Clinical Validation</span>
+                        <p>Medical doctor providing clinical expertise and healthcare system insights.</p>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-photo">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Public Health Advisor</h3>
+                        <span class="team-role">System Integration</span>
+                        <p>Medical professional with public health experience, connecting PULSE to health authorities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-why">
+                <h3>Why We're Building This</h3>
+                <p>
+                    We live in Santa Cruz, Bolivia—a city that experiences dengue outbreaks every year. 
+                    We've seen hospitals overwhelmed, communities scared, and lives lost to a disease that 
+                    could be better controlled with earlier warning. We have the technical skills, the medical 
+                    knowledge, and the local connections to make PULSE DENGUE a reality. 
+                    <strong>This is personal for us.</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Join Us in Saving Lives</h2>
+                <p>We're looking for partners, advisors, and supporters who believe in the power of prediction to prevent disease outbreaks.</p>
+                
+                <div class="cta-cards">
+                    <div class="cta-card">
+                        <i class="fas fa-prescription-bottle-medical"></i>
+                        <h3>Pharmacies</h3>
+                        <p>Join our pilot program in Santa Cruz</p>
+                    </div>
+                    <div class="cta-card">
+                        <i class="fas fa-landmark"></i>
+                        <h3>Health Authorities</h3>
+                        <p>Partner with us for early warning</p>
+                    </div>
+                    <div class="cta-card">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <h3>Investors & NGOs</h3>
+                        <p>Support our mission to scale</p>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form>
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <select>
+                            <option>I am a...</option>
+                            <option>Pharmacy Owner</option>
+                            <option>Health Authority</option>
+                            <option>Investor</option>
+                            <option>NGO Representative</option>
+                            <option>Researcher</option>
+                            <option>Other</option>
+                        </select>
+                        <textarea placeholder="Your Message" rows="4"></textarea>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                        <span class="logo-text">PULSE<span class="accent">DENGUE</span></span>
+                    </div>
+                    <p>Predicting outbreaks. Protecting communities. Saving lives.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Solution</h4>
+                        <a href="#problem">The Problem</a>
+                        <a href="#solution">Our Solution</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#impact">Impact</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Team</h4>
+                        <a href="#team">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Press</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <a href="#contact">Contact</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PULSE DENGUE. A solution for the MIT Solve Future Health Challenge.</p>
+                <p>Made with ❤️ in Santa Cruz, Bolivia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

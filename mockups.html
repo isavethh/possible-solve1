@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - App Mockups</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --bg-dark: #0A0A0F;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A0A0F 0%, #1A1A2E 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 40px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #00D9FF 0%, #00E676 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            font-size: 18px;
+        }
+
+        .mockups-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .mockup-section {
+            text-align: center;
+        }
+
+        .mockup-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .mockup-desc {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Phone Mockup */
+        .phone-frame {
+            width: 320px;
+            height: 680px;
+            background: linear-gradient(145deg, #2a2a3e 0%, #1a1a2e 100%);
+            border-radius: 45px;
+            padding: 12px;
+            box-shadow: 
+                0 50px 100px rgba(0, 0, 0, 0.5),
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            border-radius: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, #00D9FF 0%, #0099CC 100%);
+            padding: 50px 20px 20px;
+            color: var(--bg-dark);
+        }
+
+        .app-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .app-logo i {
+            font-size: 20px;
+        }
+
+        .notification-badge {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-greeting {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .app-pharmacy-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* App Content */
+        .app-content {
+            padding: 20px;
+        }
+
+        .daily-report-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .card-badge {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--warning);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Slider Input */
+        .slider-group {
+            margin-bottom: 20px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .slider-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .slider-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .slider-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .slider-option {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        /* Symptom Tags */
+        .symptom-section {
+            margin-top: 16px;
+        }
+
+        .symptom-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .symptom-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .symptom-tag {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .symptom-tag.active {
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00D9FF 0%, #0099CC 100%);
+            border: none;
+            border-radius: 12px;
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Stats Card */
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mini-stat {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mini-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .mini-stat-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ============================================
+           DASHBOARD MOCKUP
+           ============================================ */
+
+        .dashboard-frame {
+            width: 900px;
+            background: rgba(20, 20, 30, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-toolbar {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toolbar-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .toolbar-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .toolbar-dots span:nth-child(1) { background: #FF5F57; }
+        .toolbar-dots span:nth-child(2) { background: #FFBD2E; }
+        .toolbar-dots span:nth-child(3) { background: #28CA42; }
+
+        .toolbar-title {
+            flex: 1;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .dashboard-body {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .dashboard-sidebar {
+            width: 220px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #00D9FF 0%, #0099CC 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-logo-text {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .sidebar-logo-text span {
+            color: var(--primary);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(0, 217, 255, 0.15);
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Dashboard Main */
+        .dashboard-main {
+            flex: 1;
+            padding: 24px;
+        }
+
+        .dashboard-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+        }
+
+        .dashboard-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .dashboard-filters {
+            display: flex;
+            gap: 12px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 217, 255, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-card-icon.blue {
+            background: rgba(0, 217, 255, 0.15);
+            color: var(--primary);
+        }
+
+        .stat-card-icon.green {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--success);
+        }
+
+        .stat-card-icon.orange {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--secondary);
+        }
+
+        .stat-card-icon.red {
+            background: rgba(255, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .stat-card-trend {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .stat-card-trend.up {
+            background: rgba(255, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .stat-card-trend.down {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--success);
+        }
+
+        .stat-card-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-card-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Map and Alerts */
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .map-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .map-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .map-card-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.low { background: var(--success); }
+        .legend-dot.medium { background: var(--warning); }
+        .legend-dot.high { background: var(--danger); }
+
+        .map-area {
+            height: 280px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .map-zone {
+            position: absolute;
+            border-radius: 50%;
+            animation: zonePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes zonePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .zone-label {
+            position: absolute;
+            font-size: 11px;
+            white-space: nowrap;
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 8px;
+            border-radius: 4px;
+            transform: translate(-50%, -150%);
+            left: 50%;
+        }
+
+        /* Alerts Panel */
+        .alerts-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .alerts-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alerts-title i {
+            color: var(--danger);
+        }
+
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .alert-item-dash {
+            background: rgba(255, 68, 68, 0.1);
+            border-left: 3px solid var(--danger);
+            border-radius: 0 10px 10px 0;
+            padding: 14px;
+        }
+
+        .alert-item-dash.warning {
+            background: rgba(255, 215, 0, 0.1);
+            border-left-color: var(--warning);
+        }
+
+        .alert-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .alert-zone {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .alert-prob {
+            font-size: 13px;
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .alert-item-dash.warning .alert-prob {
+            color: var(--warning);
+        }
+
+        .alert-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .alert-action {
+            font-size: 11px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* Additional Section */
+        .section-divider {
+            margin: 80px 0 40px;
+            text-align: center;
+        }
+
+        .section-divider h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .section-divider p {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .mockups-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dashboard-frame {
+                width: 100%;
+                max-width: 900px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🦟 PULSE DENGUE</h1>
+    <p class="subtitle">App & Dashboard Mockups for MIT Solve Future Health Challenge</p>
+
+    <div class="section-divider">
+        <h2>📱 Pharmacy Mobile App</h2>
+        <p>Simple 2-minute daily reporting for pharmacists</p>
+    </div>
+
+    <div class="mockups-container">
+        <div class="mockup-section">
+            <h3 class="mockup-title">Daily Report Screen</h3>
+            <p class="mockup-desc">Quick symptom & sales reporting</p>
+            
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="app-header">
+                        <div class="app-header-top">
+                            <div class="app-logo">
+                                <i class="fas fa-heartbeat"></i>
+                                PULSE
+                            </div>
+                            <div class="notification-badge">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                        </div>
+                        <div class="app-greeting">Good morning,</div>
+                        <div class="app-pharmacy-name">Farmacia San Martín</div>
+                    </div>
+
+                    <div class="app-content">
+                        <div class="stats-row">
+                            <div class="mini-stat">
+                                <div class="mini-stat-value">28</div>
+                                <div class="mini-stat-label">Days Reporting</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value">🏆</div>
+                                <div class="mini-stat-label">Top Contributor</div>
+                            </div>
+                        </div>
+
+                        <div class="daily-report-card">
+                            <div class="card-header">
+                                <div class="card-title">📊 Today's Report</div>
+                                <div class="card-badge">2 min</div>
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>🌡️ Fever medication sales</span>
+                                    <span class="slider-value">+50%</span>
+                                </div>
+                                <div class="slider-track">
+                                    <div class="slider-fill" style="width: 60%;"></div>
+                                </div>
+                                <div class="slider-options">
+                                    <span class="slider-option">Normal</span>
+                                    <span class="slider-option">+25%</span>
+                                    <span class="slider-option">+50%</span>
+                                    <span class="slider-option">+100%</span>
+                                </div>
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>🦟 Repellent sales</span>
+                                    <span class="slider-value">+25%</span>
+                                </div>
+                                <div class="slider-track">
+                                    <div class="slider-fill" style="width: 40%;"></div>
+                                </div>
+                                <div class="slider-options">
+                                    <span class="slider-option">Normal</span>
+                                    <span class="slider-option">+25%</span>
+                                    <span class="slider-option">+50%</span>
+                                    <span class="slider-option">+100%</span>
+                                </div>
+                            </div>
+
+                            <div class="symptom-section">
+                                <div class="symptom-label">💬 Reported symptoms today:</div>
+                                <div class="symptom-tags">
+                                    <span class="symptom-tag active">Fever</span>
+                                    <span class="symptom-tag active">Headache</span>
+                                    <span class="symptom-tag">Rash</span>
+                                    <span class="symptom-tag active">Body pain</span>
+                                    <span class="symptom-tag">Vomiting</span>
+                                </div>
+                            </div>
+
+                            <button class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Submit Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider">
+        <h2>🖥️ Health Authority Dashboard</h2>
+        <p>Real-time outbreak prediction and monitoring</p>
+    </div>
+
+    <div class="mockups-container">
+        <div class="dashboard-frame">
+            <div class="dashboard-toolbar">
+                <div class="toolbar-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="toolbar-title">PULSE DENGUE - Health Authority Dashboard</div>
+            </div>
+
+            <div class="dashboard-body">
+                <div class="dashboard-sidebar">
+                    <div class="sidebar-logo">
+                        <div class="sidebar-logo-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="sidebar-logo-text">PULSE<span>DENGUE</span></div>
+                    </div>
+
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-map-marked-alt"></i> Heat Map</a></li>
+                        <li><a href="#"><i class="fas fa-bell"></i> Alerts</a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                        <li><a href="#"><i class="fas fa-prescription-bottle"></i> Pharmacies</a></li>
+                        <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                </div>
+
+                <div class="dashboard-main">
+                    <div class="dashboard-header-row">
+                        <div>
+                            <div class="dashboard-title">Santa Cruz Overview</div>
+                            <div class="dashboard-date">February 2, 2026 • Last updated 5 min ago</div>
+                        </div>
+                        <div class="dashboard-filters">
+                            <button class="filter-btn active">Today</button>
+                            <button class="filter-btn">7 Days</button>
+                            <button class="filter-btn">30 Days</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon blue">
+                                    <i class="fas fa-prescription-bottle"></i>
+                                </div>
+                                <span class="stat-card-trend up">↑ 12%</span>
+                            </div>
+                            <div class="stat-card-value">156</div>
+                            <div class="stat-card-label">Active Pharmacies</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon orange">
+                                    <i class="fas fa-thermometer-full"></i>
+                                </div>
+                                <span class="stat-card-trend up">↑ 45%</span>
+                            </div>
+                            <div class="stat-card-value">+47%</div>
+                            <div class="stat-card-label">Fever Med Sales Avg</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon red">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">3</div>
+                            <div class="stat-card-label">High Risk Zones</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon green">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="stat-card-trend down">↓ 5%</span>
+                            </div>
+                            <div class="stat-card-value">85%</div>
+                            <div class="stat-card-label">Model Accuracy</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-row">
+                        <div class="map-card">
+                            <div class="map-card-header">
+                                <div class="map-card-title">🗺️ City Risk Map</div>
+                                <div class="map-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-dot low"></div>
+                                        <span>Low Risk</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot medium"></div>
+                                        <span>Moderate</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot high"></div>
+                                        <span>High Risk</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-area">
+                                <div class="map-grid"></div>
+                                
+                                <!-- Zone markers -->
+                                <div class="map-zone" style="width: 60px; height: 60px; background: rgba(0, 230, 118, 0.4); box-shadow: 0 0 30px rgba(0, 230, 118, 0.5); top: 60%; left: 15%;">
+                                    <div class="zone-label">South Zone - 15%</div>
+                                </div>
+                                
+                                <div class="map-zone" style="width: 70px; height: 70px; background: rgba(255, 215, 0, 0.4); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); top: 30%; left: 40%;">
+                                    <div class="zone-label">Central - 45%</div>
+                                </div>
+                                
+                                <div class="map-zone" style="width: 80px; height: 80px; background: rgba(255, 68, 68, 0.5); box-shadow: 0 0 40px rgba(255, 68, 68, 0.6); top: 25%; left: 70%;">
+                                    <div class="zone-label">⚠️ North Zone - 85%</div>
+                                </div>
+                                
+                                <div class="map-zone" style="width: 55px; height: 55px; background: rgba(255, 215, 0, 0.4); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); top: 65%; left: 55%;">
+                                    <div class="zone-label">East - 38%</div>
+                                </div>
+                                
+                                <div class="map-zone" style="width: 50px; height: 50px; background: rgba(0, 230, 118, 0.4); box-shadow: 0 0 30px rgba(0, 230, 118, 0.5); top: 50%; left: 25%;">
+                                    <div class="zone-label">West - 12%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alerts-card">
+                            <div class="alerts-title">
+                                <i class="fas fa-bell"></i>
+                                Active Alerts
+                            </div>
+                            
+                            <div class="alert-list">
+                                <div class="alert-item-dash">
+                                    <div class="alert-item-header">
+                                        <span class="alert-zone">North Zone</span>
+                                        <span class="alert-prob">85% risk</span>
+                                    </div>
+                                    <div class="alert-desc">Outbreak predicted in 7-10 days. Fever medication sales up 120%.</div>
+                                    <div class="alert-action">
+                                        <i class="fas fa-arrow-right"></i>
+                                        View recommended actions
+                                    </div>
+                                </div>
+                                
+                                <div class="alert-item-dash warning">
+                                    <div class="alert-item-header">
+                                        <span class="alert-zone">Central Zone</span>
+                                        <span class="alert-prob">45% risk</span>
+                                    </div>
+                                    <div class="alert-desc">Moderate increase in symptom reports. Monitor closely.</div>
+                                    <div class="alert-action">
+                                        <i class="fas fa-arrow-right"></i>
+                                        View details
+                                    </div>
+                                </div>
+                                
+                                <div class="alert-item-dash warning">
+                                    <div class="alert-item-header">
+                                        <span class="alert-zone">East Zone</span>
+                                        <span class="alert-prob">38% risk</span>
+                                    </div>
+                                    <div class="alert-desc">Repellent sales trending up. Early warning signal.</div>
+                                    <div class="alert-action">
+                                        <i class="fas fa-arrow-right"></i>
+                                        View details
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <p>🦟 PULSE DENGUE - MIT Solve Future Health Challenge 2026</p>
+        <p style="margin-top: 8px;">Built with ❤️ in Santa Cruz, Bolivia</p>
+    </div>
+</body>
+</html>
