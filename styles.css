@@ -202,6 +202,24 @@ ul {
     width: 100%;
 }
 
+.nav-links .demo-link {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.15) 0%, rgba(0, 217, 255, 0.15) 100%);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 230, 118, 0.3);
+    color: var(--success) !important;
+    font-weight: 500;
+}
+
+.nav-links .demo-link:hover {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.25) 0%, rgba(0, 217, 255, 0.25) 100%);
+    border-color: var(--success);
+}
+
+.nav-links .demo-link::after {
+    display: none;
+}
+
 .nav-cta {
     background: var(--gradient-primary);
     padding: 12px 24px;

@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PULSE DENGUE - App Farmacia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --bg-dark: #0A0A0F;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0A0A0F 0%, #1A1A2E 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Phone Frame */
+        .phone-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .phone-frame {
+            background: linear-gradient(145deg, #2a2a3e 0%, #1a1a2e 100%);
+            border-radius: 45px;
+            padding: 12px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .phone-notch {
+            width: 120px;
+            height: 28px;
+            background: #000;
+            border-radius: 20px;
+            margin: 0 auto 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            background: var(--bg-dark);
+            border-radius: 35px;
+            min-height: 700px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* App Screens */
+        .app-screen {
+            display: none;
+            height: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .app-screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Login Screen */
+        .login-screen {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 700px;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--bg-dark);
+            margin-bottom: 24px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .login-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .login-title span {
+            color: var(--primary);
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .input-group select option {
+            background: var(--bg-dark);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
+            border: none;
+            border-radius: 14px;
+            color: var(--bg-dark);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Main App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0099CC 100%);
+            padding: 50px 20px 24px;
+            color: var(--bg-dark);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .header-logo i {
+            font-size: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .greeting {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .pharmacy-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            margin: -12px -20px 0;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        /* App Content */
+        .app-content {
+            padding: 20px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .quick-action {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .quick-action.primary {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 230, 118, 0.15) 100%);
+            border-color: rgba(0, 217, 255, 0.3);
+        }
+
+        .quick-action-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 217, 255, 0.15);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .quick-action.primary .quick-action-icon {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .quick-action h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .quick-action p {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title a {
+            font-size: 13px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Report History */
+        .report-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .report-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .report-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .report-icon.success {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--success);
+        }
+
+        .report-icon.pending {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--warning);
+        }
+
+        .report-details {
+            flex: 1;
+        }
+
+        .report-details h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .report-details p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .report-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .report-badge.sent {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--success);
+        }
+
+        /* Report Form Screen */
+        .report-screen {
+            min-height: 700px;
+        }
+
+        .report-header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #FF8F6B 100%);
+            padding: 50px 20px 24px;
+            color: white;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .report-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .report-header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .report-form {
+            padding: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Radio Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .option-btn {
+            padding: 14px 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(0, 230, 118, 0.2) 100%);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .option-btn .icon {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        /* Symptoms Checkboxes */
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .symptom-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .symptom-check:hover {
+            border-color: var(--primary);
+        }
+
+        .symptom-check.checked {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .symptom-check input {
+            display: none;
+        }
+
+        .check-box {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .symptom-check.checked .check-box {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .symptom-label {
+            font-size: 13px;
+        }
+
+        /* Notes */
+        .notes-input {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            resize: none;
+            height: 100px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .notes-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--success) 0%, #00C853 100%);
+            border: none;
+            border-radius: 14px;
+            color: var(--bg-dark);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 230, 118, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 700px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--success) 0%, #00C853 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: var(--bg-dark);
+            margin-bottom: 32px;
+            animation: successPop 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .success-points {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 107, 53, 0.15) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 16px;
+            padding: 20px 32px;
+            margin-bottom: 32px;
+        }
+
+        .points-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .points-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .continue-btn {
+            padding: 16px 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            border-color: var(--primary);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            border-top: 1px solid var(--border);
+            padding: 12px 20px 24px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Timer */
+        .report-timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(0, 230, 118, 0.1);
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .report-timer i {
+            color: var(--success);
+        }
+
+        /* Alert Badge */
+        .zone-alert {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.15) 0%, rgba(255, 107, 53, 0.15) 100%);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .zone-alert-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 68, 68, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--danger);
+        }
+
+        .zone-alert-content h4 {
+            font-size: 13px;
+            color: var(--danger);
+            margin-bottom: 2px;
+        }
+
+        .zone-alert-content p {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Demo indicator */
+        .demo-indicator {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            color: var(--bg-dark);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-indicator">
+        <i class="fas fa-mobile-alt"></i> DEMO - App Farmacéutico
+    </div>
+
+    <div class="phone-container">
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+                
+                <!-- Login Screen -->
+                <div class="app-screen active" id="loginScreen">
+                    <div class="login-screen">
+                        <div class="login-logo">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h1 class="login-title">PULSE<span>DENGUE</span></h1>
+                        <p class="login-subtitle">Sistema de Alerta Temprana<br>para Farmacias</p>
+                        
+                        <div class="input-group">
+                            <label>Nombre de la Farmacia</label>
+                            <input type="text" id="pharmacyName" placeholder="Ej: Farmacia San Martín" value="Farmacia San Martín">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Zona</label>
+                            <select id="pharmacyZone">
+                                <option value="norte">Zona Norte</option>
+                                <option value="sur">Zona Sur</option>
+                                <option value="este">Zona Este</option>
+                                <option value="oeste">Zona Oeste</option>
+                                <option value="centro">Zona Centro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Código de Acceso</label>
+                            <input type="password" id="accessCode" placeholder="••••••" value="123456">
+                        </div>
+                        
+                        <button class="login-btn" onclick="login()">
+                            <i class="fas fa-sign-in-alt"></i> Ingresar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Screen -->
+                <div class="app-screen" id="mainScreen">
+                    <div class="app-header">
+                        <div class="header-top">
+                            <div class="header-logo">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>PULSE</span>
+                            </div>
+                            <div class="header-actions">
+                                <div class="header-btn">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="header-btn" onclick="logout()">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="greeting">Buenos días 👋</p>
+                        <h2 class="pharmacy-name" id="displayPharmacyName">Farmacia San Martín</h2>
+                        
+                        <div class="stats-bar">
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalReports">7</div>
+                                <div class="stat-label">Reportes</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="streak">5</div>
+                                <div class="stat-label">Días seguidos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="points">350</div>
+                                <div class="stat-label">Puntos</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-content">
+                        <!-- Zone Alert -->
+                        <div class="zone-alert">
+                            <div class="zone-alert-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="zone-alert-content">
+                                <h4>⚠️ Alerta en tu zona</h4>
+                                <p>Se detectó aumento de casos. Tus reportes son cruciales.</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <div class="quick-action primary" onclick="showReportForm()">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <h4>Reporte Diario</h4>
+                                <p>2 min • +50 pts</p>
+                            </div>
+                            <div class="quick-action" onclick="showHistory()">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <h4>Historial</h4>
+                                <p>Ver reportes</p>
+                            </div>
+                            <div class="quick-action">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>Estadísticas</h4>
+                                <p>Tu zona</p>
+                            </div>
+                            <div class="quick-action">
+                                <div class="quick-action-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h4>Ranking</h4>
+                                <p>#3 en zona</p>
+                            </div>
+                        </div>
+
+                        <!-- Recent Reports -->
+                        <h3 class="section-title">
+                            Reportes Recientes
+                            <a href="#" onclick="showHistory()">Ver todos</a>
+                        </h3>
+                        <div class="report-list" id="reportList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav -->
+                    <div class="bottom-nav">
+                        <div class="nav-item active">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </div>
+                        <div class="nav-item" onclick="showReportForm()">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Reportar</span>
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Stats</span>
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-user"></i>
+                            <span>Perfil</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Form Screen -->
+                <div class="app-screen" id="reportScreen">
+                    <div class="report-screen">
+                        <div class="report-header">
+                            <button class="back-btn" onclick="showMain()">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </button>
+                            <h1>Reporte Diario</h1>
+                            <p>3 de Febrero, 2026</p>
+                        </div>
+
+                        <div class="report-form">
+                            <div class="report-timer">
+                                <i class="fas fa-clock"></i>
+                                <span>Tiempo estimado: 2 minutos</span>
+                            </div>
+
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Progreso</span>
+                                    <span id="progressPercent">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Fever Medication -->
+                            <div class="form-section">
+                                <div class="form-section-title">
+                                    <i class="fas fa-thermometer-half"></i> Ventas de Antifebriles
+                                </div>
+                                <div class="options-grid" data-field="fever">
+                                    <div class="option-btn" data-value="normal" onclick="selectOption(this)">
+                                        <div class="icon">😊</div>
+                                        Normal
+                                    </div>
+                                    <div class="option-btn" data-value="+25" onclick="selectOption(this)">
+                                        <div class="icon">📈</div>
+                                        +25%
+                                    </div>
+                                    <div class="option-btn" data-value="+50" onclick="selectOption(this)">
+                                        <div class="icon">⚠️</div>
+                                        +50%
+                                    </div>
+                                    <div class="option-btn" data-value="+100" onclick="selectOption(this)">
+                                        <div class="icon">🚨</div>
+                                        +100%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Repellent Sales -->
+                            <div class="form-section">
+                                <div class="form-section-title">
+                                    <i class="fas fa-spray-can"></i> Ventas de Repelentes
+                                </div>
+                                <div class="options-grid" data-field="repellent">
+                                    <div class="option-btn" data-value="normal" onclick="selectOption(this)">
+                                        <div class="icon">😊</div>
+                                        Normal
+                                    </div>
+                                    <div class="option-btn" data-value="+25" onclick="selectOption(this)">
+                                        <div class="icon">📈</div>
+                                        +25%
+                                    </div>
+                                    <div class="option-btn" data-value="+50" onclick="selectOption(this)">
+                                        <div class="icon">⚠️</div>
+                                        +50%
+                                    </div>
+                                    <div class="option-btn" data-value="+100" onclick="selectOption(this)">
+                                        <div class="icon">🚨</div>
+                                        +100%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ORS Sales -->
+                            <div class="form-section">
+                                <div class="form-section-title">
+                                    <i class="fas fa-tint"></i> Sueros Orales
+                                </div>
+                                <div class="options-grid" data-field="ors">
+                                    <div class="option-btn" data-value="normal" onclick="selectOption(this)">
+                                        <div class="icon">😊</div>
+                                        Normal
+                                    </div>
+                                    <div class="option-btn" data-value="+25" onclick="selectOption(this)">
+                                        <div class="icon">📈</div>
+                                        +25%
+                                    </div>
+                                    <div class="option-btn" data-value="+50" onclick="selectOption(this)">
+                                        <div class="icon">⚠️</div>
+                                        +50%
+                                    </div>
+                                    <div class="option-btn" data-value="+100" onclick="selectOption(this)">
+                                        <div class="icon">🚨</div>
+                                        +100%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Symptom Inquiries -->
+                            <div class="form-section">
+                                <div class="form-section-title">
+                                    <i class="fas fa-comments"></i> Consultas de Síntomas
+                                </div>
+                                <div class="symptoms-grid">
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="fiebre">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Fiebre alta</span>
+                                    </label>
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="dolor_cabeza">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Dolor de cabeza</span>
+                                    </label>
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="dolor_cuerpo">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Dolor de cuerpo</span>
+                                    </label>
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="sarpullido">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Sarpullido</span>
+                                    </label>
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="nauseas">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Náuseas</span>
+                                    </label>
+                                    <label class="symptom-check" onclick="toggleSymptom(this)">
+                                        <input type="checkbox" value="dolor_ojos">
+                                        <div class="check-box"><i class="fas fa-check"></i></div>
+                                        <span class="symptom-label">Dolor detrás ojos</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="form-section">
+                                <div class="form-section-title">
+                                    <i class="fas fa-sticky-note"></i> Observaciones (Opcional)
+                                </div>
+                                <textarea class="notes-input" id="notes" placeholder="¿Notaste algo inusual hoy? Escríbelo aquí..."></textarea>
+                            </div>
+
+                            <button class="submit-btn" id="submitBtn" onclick="submitReport()">
+                                <i class="fas fa-paper-plane"></i>
+                                Enviar Reporte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Screen -->
+                <div class="app-screen" id="successScreen">
+                    <div class="success-screen">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h1 class="success-title">¡Reporte Enviado!</h1>
+                        <p class="success-message">
+                            Gracias por tu contribución. Tu reporte ayuda a proteger 
+                            a miles de personas en tu comunidad.
+                        </p>
+                        <div class="success-points">
+                            <div class="points-value">+50</div>
+                            <div class="points-label">Puntos ganados</div>
+                        </div>
+                        <button class="continue-btn" onclick="showMain()">
+                            <i class="fas fa-home"></i> Volver al Inicio
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let appState = {
+            pharmacy: '',
+            zone: '',
+            reports: [],
+            points: 350,
+            streak: 5,
+            currentReport: {
+                fever: null,
+                repellent: null,
+                ors: null,
+                symptoms: [],
+                notes: ''
+            }
+        };
+
+        // Load from localStorage
+        function loadState() {
+            const saved = localStorage.getItem('pulseDengueApp');
+            if (saved) {
+                appState = JSON.parse(saved);
+                updateUI();
+            }
+        }
+
+        // Save to localStorage
+        function saveState() {
+            localStorage.setItem('pulseDengueApp', JSON.stringify(appState));
+        }
+
+        // Login
+        function login() {
+            const name = document.getElementById('pharmacyName').value;
+            const zone = document.getElementById('pharmacyZone').value;
+            
+            if (!name) {
+                alert('Por favor ingresa el nombre de la farmacia');
+                return;
+            }
+
+            appState.pharmacy = name;
+            appState.zone = zone;
+            saveState();
+            
+            document.getElementById('displayPharmacyName').textContent = name;
+            showScreen('mainScreen');
+            updateUI();
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('¿Deseas cerrar sesión?')) {
+                showScreen('loginScreen');
+            }
+        }
+
+        // Screen Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showMain() {
+            showScreen('mainScreen');
+            resetReportForm();
+        }
+
+        function showReportForm() {
+            showScreen('reportScreen');
+            resetReportForm();
+        }
+
+        function showHistory() {
+            alert('📋 Historial de Reportes\n\nÚltimos 7 días:\n• 3 Feb - Normal\n• 2 Feb - +25% antifebriles\n• 1 Feb - Normal\n• 31 Ene - Normal\n• 30 Ene - +50% repelentes');
+        }
+
+        // Option Selection
+        function selectOption(btn) {
+            const parent = btn.closest('.options-grid');
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            const field = parent.dataset.field;
+            appState.currentReport[field] = btn.dataset.value;
+            
+            updateProgress();
+        }
+
+        // Symptom Toggle
+        function toggleSymptom(label) {
+            label.classList.toggle('checked');
+            const checkbox = label.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            
+            const value = checkbox.value;
+            if (checkbox.checked) {
+                appState.currentReport.symptoms.push(value);
+            } else {
+                appState.currentReport.symptoms = appState.currentReport.symptoms.filter(s => s !== value);
+            }
+        }
+
+        // Update Progress
+        function updateProgress() {
+            let filled = 0;
+            if (appState.currentReport.fever) filled++;
+            if (appState.currentReport.repellent) filled++;
+            if (appState.currentReport.ors) filled++;
+            
+            const percent = Math.round((filled / 3) * 100);
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        // Submit Report
+        function submitReport() {
+            if (!appState.currentReport.fever || !appState.currentReport.repellent || !appState.currentReport.ors) {
+                alert('Por favor completa todas las secciones obligatorias');
+                return;
+            }
+
+            const report = {
+                ...appState.currentReport,
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toISOString(),
+                pharmacy: appState.pharmacy,
+                zone: appState.zone
+            };
+
+            appState.reports.unshift(report);
+            appState.points += 50;
+            appState.streak += 1;
+            
+            saveState();
+            updateUI();
+            
+            showScreen('successScreen');
+            
+            // Simulate sending to server
+            console.log('Report submitted:', report);
+        }
+
+        // Reset Form
+        function resetReportForm() {
+            appState.currentReport = {
+                fever: null,
+                repellent: null,
+                ors: null,
+                symptoms: [],
+                notes: ''
+            };
+            
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.symptom-check').forEach(s => {
+                s.classList.remove('checked');
+                s.querySelector('input').checked = false;
+            });
+            document.getElementById('notes').value = '';
+            updateProgress();
+        }
+
+        // Update UI
+        function updateUI() {
+            document.getElementById('totalReports').textContent = appState.reports.length + 7;
+            document.getElementById('streak').textContent = appState.streak;
+            document.getElementById('points').textContent = appState.points;
+            
+            updateReportList();
+        }
+
+        // Update Report List
+        function updateReportList() {
+            const list = document.getElementById('reportList');
+            const recentReports = appState.reports.slice(0, 3);
+            
+            if (recentReports.length === 0) {
+                list.innerHTML = `
+                    <div class="report-item">
+                        <div class="report-icon success">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="report-details">
+                            <h4>2 de Febrero, 2026</h4>
+                            <p>Antifebriles: Normal • Repelentes: +25%</p>
+                        </div>
+                        <span class="report-badge sent">Enviado</span>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-icon success">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="report-details">
+                            <h4>1 de Febrero, 2026</h4>
+                            <p>Antifebriles: Normal • Repelentes: Normal</p>
+                        </div>
+                        <span class="report-badge sent">Enviado</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = recentReports.map(r => {
+                const date = new Date(r.timestamp);
+                const dateStr = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                return `
+                    <div class="report-item">
+                        <div class="report-icon success">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="report-details">
+                            <h4>${dateStr}</h4>
+                            <p>Antifebriles: ${r.fever} • Repelentes: ${r.repellent}</p>
+                        </div>
+                        <span class="report-badge sent">Enviado</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            if (appState.pharmacy) {
+                document.getElementById('displayPharmacyName').textContent = appState.pharmacy;
+            }
+        });
+    </script>
+</body>
+</html>

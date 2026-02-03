@@ -481,14 +481,21 @@ If selected, we commit to:
 
 ## ATTACHMENTS TO PREPARE
 
-1. ✅ Landing page (index.html)
-2. ✅ App mockups (mockups.html)
-3. ✅ Pitch deck (pitch-deck.html)
-4. ✅ Dashboard de Autoridades (dashboard.html) - **NUEVO**
-5. ⬜ Team lead photo
-6. ⬜ Solution logo (high resolution)
-7. ⬜ Short video (2-3 minutes recommended)
-8. ⬜ Letters of support (pharmacies, health authorities)
+### ✅ Componentes Completados:
+1. ✅ Landing page (index.html) - Página principal en inglés
+2. ✅ App mockups (mockups.html) - Diseños de interfaz
+3. ✅ Pitch deck (pitch-deck.html) - Presentación para inversores
+4. ✅ Dashboard de Autoridades (dashboard.html) - Panel de control completo
+5. ✅ App Farmacéutico (app-farmacia.html) - App funcional con formulario
+6. ✅ Demo Interactivo (demo-flow.html) - Flujo paso a paso
+7. ✅ Portal Central (portal.html) - Hub de navegación
+8. ✅ Motor de Simulación (simulator.js) - Generador de datos realistas
+
+### ⬜ Pendientes:
+- ⬜ Team lead photo
+- ⬜ Solution logo (high resolution)
+- ⬜ Short video (2-3 minutes recommended)
+- ⬜ Letters of support (pharmacies, health authorities)
 
 ---
 
