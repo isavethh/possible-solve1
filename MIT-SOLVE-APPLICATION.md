@@ -484,10 +484,11 @@ If selected, we commit to:
 1. ✅ Landing page (index.html)
 2. ✅ App mockups (mockups.html)
 3. ✅ Pitch deck (pitch-deck.html)
-4. ⬜ Team lead photo
-5. ⬜ Solution logo (high resolution)
-6. ⬜ Short video (2-3 minutes recommended)
-7. ⬜ Letters of support (pharmacies, health authorities)
+4. ✅ Dashboard de Autoridades (dashboard.html) - **NUEVO**
+5. ⬜ Team lead photo
+6. ⬜ Solution logo (high resolution)
+7. ⬜ Short video (2-3 minutes recommended)
+8. ⬜ Letters of support (pharmacies, health authorities)
 
 ---
 
