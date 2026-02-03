@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PULSE DENGUE - Portal de Demostración</title>
+    <title>PULSE DENGUE - Demonstration Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,554 +19,177 @@
             --text-primary: #FFFFFF;
             --text-secondary: rgba(255, 255, 255, 0.6);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            min-height: 100vh;
-            color: var(--text-primary);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Header */
-        .portal-header {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 230, 118, 0.05) 100%);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .logo-icon {
-            width: 72px;
-            height: 72px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: var(--bg-dark);
-            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
-        }
-
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 42px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--primary);
-        }
-
-        .portal-subtitle {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .mit-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 14px;
-            color: var(--secondary);
-        }
-
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .portal-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 32px;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .portal-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .portal-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .portal-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin-bottom: 24px;
-        }
-
-        .card-icon.blue {
-            background: rgba(0, 217, 255, 0.15);
-            color: var(--primary);
-        }
-
-        .card-icon.green {
-            background: rgba(0, 230, 118, 0.15);
-            color: var(--success);
-        }
-
-        .card-icon.orange {
-            background: rgba(255, 107, 53, 0.15);
-            color: var(--secondary);
-        }
-
-        .card-icon.purple {
-            background: rgba(155, 89, 182, 0.15);
-            color: #9B59B6;
-        }
-
-        .card-icon.yellow {
-            background: rgba(255, 215, 0, 0.15);
-            color: var(--warning);
-        }
-
-        .card-icon.red {
-            background: rgba(255, 68, 68, 0.15);
-            color: var(--danger);
-        }
-
-        .portal-card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .portal-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .card-arrow {
-            position: absolute;
-            bottom: 32px;
-            right: 32px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .portal-card:hover .card-arrow {
-            background: var(--primary);
-            color: var(--bg-dark);
-        }
-
-        /* Featured Card */
-        .featured-card {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%);
-            border-color: rgba(0, 217, 255, 0.2);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .featured-card .card-content {
-            padding-right: 20px;
-        }
-
-        .featured-card .card-visual {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .mini-screen {
-            width: 120px;
-            height: 200px;
-            background: var(--bg-dark);
-            border-radius: 16px;
-            border: 2px solid var(--border);
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .mini-screen-header {
-            width: 40px;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            margin-bottom: 8px;
-        }
-
-        .mini-screen-content {
-            flex: 1;
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        /* Stats Section */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 60px;
-            padding: 40px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 48px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        /* Footer */
-        .portal-footer {
-            text-align: center;
-            padding: 40px;
-            margin-top: 60px;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-bottom: 20px;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-text {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .featured-card {
-                grid-template-columns: 1fr;
-            }
-            .featured-card .card-visual {
-                justify-content: flex-start;
-            }
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .logo-text {
-                font-size: 32px;
-            }
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            .stats-section {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); min-height: 100vh; color: var(--text-primary); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .portal-header { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 230, 118, 0.05) 100%); border-bottom: 1px solid var(--border); }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; }
+        .logo-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 36px; color: var(--bg-dark); box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3); }
+        .logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 42px; font-weight: 700; }
+        .logo-text span { color: var(--primary); }
+        .portal-subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 24px; }
+        .mit-badge { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%); border: 1px solid rgba(255, 107, 53, 0.3); padding: 12px 24px; border-radius: 30px; font-size: 14px; color: var(--secondary); }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-top: 40px; }
+        .portal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; transition: all 0.4s ease; text-decoration: none; color: inherit; display: block; position: relative; overflow: hidden; }
+        .portal-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%); opacity: 0; transition: opacity 0.3s ease; }
+        .portal-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); }
+        .portal-card:hover::before { opacity: 1; }
+        .card-icon { width: 72px; height: 72px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 24px; }
+        .card-icon.blue { background: rgba(0, 217, 255, 0.15); color: var(--primary); }
+        .card-icon.green { background: rgba(0, 230, 118, 0.15); color: var(--success); }
+        .card-icon.orange { background: rgba(255, 107, 53, 0.15); color: var(--secondary); }
+        .card-icon.purple { background: rgba(155, 89, 182, 0.15); color: #9B59B6; }
+        .card-icon.yellow { background: rgba(255, 215, 0, 0.15); color: var(--warning); }
+        .card-icon.red { background: rgba(255, 68, 68, 0.15); color: var(--danger); }
+        .card-icon.gradient { background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2)); color: #667eea; }
+        .portal-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-bottom: 12px; }
+        .portal-card p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
+        .card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { padding: 6px 14px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; font-size: 12px; color: var(--text-secondary); }
+        .card-arrow { position: absolute; bottom: 32px; right: 32px; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .portal-card:hover .card-arrow { background: var(--primary); color: var(--bg-dark); }
+        .featured-card { grid-column: 1 / -1; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%); border-color: rgba(0, 217, 255, 0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .featured-card .card-content { padding-right: 20px; }
+        .featured-card .card-visual { display: flex; justify-content: center; gap: 20px; }
+        .mini-screen { width: 120px; height: 200px; background: var(--bg-dark); border-radius: 16px; border: 2px solid var(--border); padding: 8px; display: flex; flex-direction: column; align-items: center; }
+        .mini-screen-header { width: 40px; height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 8px; }
+        .mini-screen-content { flex: 1; width: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .stats-section { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 60px; padding: 40px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; }
+        .stat-item { text-align: center; }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { color: var(--text-secondary); font-size: 14px; margin-top: 8px; }
+        .portal-footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 1px solid var(--border); }
+        .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 20px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-text { color: var(--text-secondary); font-size: 13px; }
+        @media (max-width: 1024px) { .featured-card { grid-template-columns: 1fr; } .featured-card .card-visual { justify-content: flex-start; } .stats-section { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .logo { flex-direction: column; gap: 12px; } .logo-text { font-size: 32px; } .cards-grid { grid-template-columns: 1fr; } .stats-section { grid-template-columns: 1fr; } .footer-links { gap: 16px; } }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="portal-header">
         <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-heartbeat"></i>
-            </div>
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
             <div class="logo-text">PULSE<span>DENGUE</span></div>
         </div>
-        <p class="portal-subtitle">
-            Predictive Urban & Local Sensing Engine
-        </p>
-        <div class="mit-badge">
-            <i class="fas fa-award"></i>
-            MIT Solve Future Health Challenge 2026
-        </div>
+        <p class="portal-subtitle">Predictive Urban & Local Sensing Engine</p>
+        <div class="mit-badge"><i class="fas fa-award"></i> MIT Solve Future Health Challenge 2026</div>
     </header>
-
-    <!-- Main Content -->
     <div class="container">
         <div class="cards-grid">
-            <!-- Featured: Demo Flow -->
             <a href="demo-flow.html" class="portal-card featured-card">
                 <div class="card-content">
-                    <div class="card-icon blue">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                    <h3>🎯 Demo Interactivo del Sistema</h3>
-                    <p>
-                        Explora paso a paso cómo funciona PULSE DENGUE: desde la captura 
-                        de señales en farmacias hasta las recomendaciones de acción para 
-                        autoridades de salud.
-                    </p>
+                    <div class="card-icon blue"><i class="fas fa-play-circle"></i></div>
+                    <h3>🎯 Interactive System Demo</h3>
+                    <p>Explore step-by-step how PULSE DENGUE works: from capturing signals at pharmacies to actionable recommendations for health authorities.</p>
                     <div class="card-tags">
-                        <span class="tag">Flujo completo</span>
-                        <span class="tag">Interactivo</span>
-                        <span class="tag">4 pasos</span>
+                        <span class="tag">Complete flow</span>
+                        <span class="tag">Interactive</span>
+                        <span class="tag">4 steps</span>
                     </div>
                 </div>
                 <div class="card-visual">
-                    <div class="mini-screen">
-                        <div class="mini-screen-header"></div>
-                        <div class="mini-screen-content">📱</div>
-                    </div>
-                    <div class="mini-screen" style="margin-top: 30px;">
-                        <div class="mini-screen-header"></div>
-                        <div class="mini-screen-content">🧠</div>
-                    </div>
-                    <div class="mini-screen">
-                        <div class="mini-screen-header"></div>
-                        <div class="mini-screen-content">📊</div>
-                    </div>
+                    <div class="mini-screen"><div class="mini-screen-header"></div><div class="mini-screen-content">📱</div></div>
+                    <div class="mini-screen" style="margin-top: 30px;"><div class="mini-screen-header"></div><div class="mini-screen-content">🧠</div></div>
+                    <div class="mini-screen"><div class="mini-screen-header"></div><div class="mini-screen-content">📊</div></div>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
-
-            <!-- App Farmacia -->
-            <a href="app-farmacia.html" class="portal-card">
-                <div class="card-icon green">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>📱 App del Farmacéutico</h3>
-                <p>
-                    Aplicación móvil funcional para el reporte diario. 
-                    Incluye login, formulario de captura, historial y 
-                    sistema de gamificación.
-                </p>
+            <a href="pharmacy-app.html" class="portal-card">
+                <div class="card-icon green"><i class="fas fa-mobile-alt"></i></div>
+                <h3>📱 Pharmacist App</h3>
+                <p>Functional mobile application for daily reporting. Includes login, data capture form, history tracking, and gamification system.</p>
                 <div class="card-tags">
-                    <span class="tag">Funcional</span>
-                    <span class="tag">2 min/reporte</span>
-                    <span class="tag">Gamificación</span>
+                    <span class="tag">Functional</span>
+                    <span class="tag">2 min/report</span>
+                    <span class="tag">Gamification</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
-
-            <!-- Dashboard -->
             <a href="dashboard.html" class="portal-card">
-                <div class="card-icon orange">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>🖥️ Dashboard de Autoridades</h3>
-                <p>
-                    Panel de control completo para vigilancia epidemiológica. 
-                    Mapa de riesgo, alertas, gráficos y recomendaciones 
-                    accionables.
-                </p>
+                <div class="card-icon orange"><i class="fas fa-chart-line"></i></div>
+                <h3>🖥️ Authorities Dashboard</h3>
+                <p>Complete control panel for epidemiological surveillance. Risk map, alerts, charts, and actionable recommendations.</p>
                 <div class="card-tags">
-                    <span class="tag">Tiempo real</span>
-                    <span class="tag">Mapa interactivo</span>
-                    <span class="tag">Alertas</span>
+                    <span class="tag">Real-time</span>
+                    <span class="tag">Interactive map</span>
+                    <span class="tag">Alerts</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
-
-            <!-- Landing Page -->
-            <a href="index.html" class="portal-card">
-                <div class="card-icon purple">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <h3>🌐 Landing Page</h3>
-                <p>
-                    Página principal del proyecto con descripción del 
-                    problema, solución, equipo e información para 
-                    potenciales socios e inversores.
-                </p>
+            <a href="ai-predictions.html" class="portal-card">
+                <div class="card-icon gradient"><i class="fas fa-brain"></i></div>
+                <h3>🧠 AI Prediction Engine</h3>
+                <p>Explore our machine learning model architecture, data sources, performance metrics, and real-time prediction capabilities.</p>
                 <div class="card-tags">
-                    <span class="tag">Presentación</span>
-                    <span class="tag">Inglés</span>
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">85% Accuracy</span>
+                    <span class="tag">Explainable</span>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </a>
+            <a href="ai-demo.html" class="portal-card">
+                <div class="card-icon purple"><i class="fas fa-flask"></i></div>
+                <h3>🔬 AI Demo & Limitations</h3>
+                <p>Interactive demonstration showing how our AI responds to different scenarios, with honest transparency about capabilities and limitations.</p>
+                <div class="card-tags">
+                    <span class="tag">3 Scenarios</span>
+                    <span class="tag">Honest Limits</span>
+                    <span class="tag">Transparency</span>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </a>
+            <a href="index.html" class="portal-card">
+                <div class="card-icon yellow"><i class="fas fa-globe"></i></div>
+                <h3>🌐 Landing Page</h3>
+                <p>Main project page with problem description, solution, team information for potential partners and investors.</p>
+                <div class="card-tags">
+                    <span class="tag">Presentation</span>
+                    <span class="tag">English</span>
                     <span class="tag">Responsive</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
-
-            <!-- Mockups -->
             <a href="mockups.html" class="portal-card">
-                <div class="card-icon yellow">
-                    <i class="fas fa-images"></i>
-                </div>
-                <h3>🎨 Mockups de Diseño</h3>
-                <p>
-                    Diseños detallados de la interfaz de usuario para 
-                    la app del farmacéutico con todas las pantallas 
-                    y estados del flujo.
-                </p>
+                <div class="card-icon yellow"><i class="fas fa-images"></i></div>
+                <h3>🎨 Design Mockups</h3>
+                <p>Detailed user interface designs for the pharmacist app with all screens and flow states.</p>
                 <div class="card-tags">
                     <span class="tag">UI/UX</span>
-                    <span class="tag">Diseño completo</span>
+                    <span class="tag">Complete design</span>
                     <span class="tag">Mobile-first</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
-
-            <!-- Pitch Deck -->
             <a href="pitch-deck.html" class="portal-card">
-                <div class="card-icon red">
-                    <i class="fas fa-presentation"></i>
-                </div>
+                <div class="card-icon red"><i class="fas fa-presentation"></i></div>
                 <h3>📽️ Pitch Deck</h3>
-                <p>
-                    Presentación ejecutiva para inversores y el panel 
-                    de MIT Solve con el problema, solución, modelo de 
-                    negocio y equipo.
-                </p>
+                <p>Executive presentation for investors and MIT Solve panel with problem, solution, business model, and team.</p>
                 <div class="card-tags">
-                    <span class="tag">Presentación</span>
-                    <span class="tag">Inversores</span>
+                    <span class="tag">Presentation</span>
+                    <span class="tag">Investors</span>
                     <span class="tag">MIT Solve</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </a>
         </div>
-
-        <!-- Stats -->
         <div class="stats-section">
-            <div class="stat-item">
-                <div class="stat-value">6</div>
-                <div class="stat-label">Componentes Demo</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">100%</div>
-                <div class="stat-label">Funcionales</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">2-3</div>
-                <div class="stat-label">Semanas de Anticipación</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">85%</div>
-                <div class="stat-label">Precisión Objetivo</div>
-            </div>
+            <div class="stat-item"><div class="stat-value">8</div><div class="stat-label">Demo Components</div></div>
+            <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">Functional</div></div>
+            <div class="stat-item"><div class="stat-value">2-3</div><div class="stat-label">Weeks Early Warning</div></div>
+            <div class="stat-item"><div class="stat-value">85%</div><div class="stat-label">Target Accuracy</div></div>
         </div>
     </div>
-
-    <!-- Footer -->
     <footer class="portal-footer">
         <div class="footer-links">
-            <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
             <a href="demo-flow.html"><i class="fas fa-play"></i> Demo</a>
             <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
-            <a href="app-farmacia.html"><i class="fas fa-mobile-alt"></i> App</a>
+            <a href="pharmacy-app.html"><i class="fas fa-mobile-alt"></i> App</a>
             <a href="pitch-deck.html"><i class="fas fa-file-powerpoint"></i> Pitch</a>
         </div>
-        <p class="footer-text">
-            PULSE DENGUE © 2026 | MIT Solve Future Health Challenge<br>
-            Santa Cruz, Bolivia 🇧🇴
-        </p>
+        <p class="footer-text">PULSE DENGUE © 2026 | MIT Solve Future Health Challenge<br>Santa Cruz, Bolivia 🇧🇴</p>
     </footer>
 </body>
 </html>

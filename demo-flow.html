@@ -1,679 +1,151 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PULSE DENGUE - Demo Interactivo</title>
+    <title>PULSE DENGUE - Interactive Demo</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #00D9FF;
-            --secondary: #FF6B35;
-            --success: #00E676;
-            --warning: #FFD700;
-            --danger: #FF4444;
-            --bg-dark: #0A0A0F;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --text-primary: #FFFFFF;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            min-height: 100vh;
-            color: var(--text-primary);
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        .demo-header {
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: var(--bg-dark);
-        }
-
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--primary);
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 16px;
-        }
-
-        .nav-link {
-            padding: 10px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            border-color: var(--primary);
-            background: rgba(0, 217, 255, 0.1);
-        }
-
-        .nav-link.primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            color: var(--bg-dark);
-            border: none;
-            font-weight: 600;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 120px 40px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Hero */
-        .demo-hero {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .demo-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            color: var(--secondary);
-            margin-bottom: 24px;
-        }
-
-        .demo-hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .demo-hero p {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 32px;
-            line-height: 1.7;
-        }
-
-        /* Flow Steps */
-        .flow-container {
-            position: relative;
-        }
-
-        .flow-line {
-            position: absolute;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: calc(100% - 200px);
-            background: linear-gradient(180deg, var(--primary) 0%, var(--success) 50%, var(--warning) 100%);
-            border-radius: 2px;
-            z-index: 0;
-        }
-
-        .flow-step {
-            display: flex;
-            gap: 60px;
-            margin-bottom: 80px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .flow-step.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .step-content {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--bg-dark);
-            margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.3);
-        }
-
-        .step-content h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-
-        .step-content p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .step-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .feature-tag {
-            padding: 8px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .feature-tag i {
-            color: var(--primary);
-        }
-
-        .step-visual {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        /* Interactive Preview */
-        .preview-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .preview-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            border-color: var(--primary);
-        }
-
-        .preview-header {
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%);
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .preview-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .preview-btn {
-            padding: 8px 16px;
-            background: var(--primary);
-            color: var(--bg-dark);
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .preview-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .preview-content {
-            padding: 24px;
-        }
-
-        /* Pharmacy Preview */
-        .pharmacy-mini {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .pharmacy-item {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-        }
-
-        .pharmacy-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-dark);
-        }
-
-        .pharmacy-info {
-            flex: 1;
-        }
-
-        .pharmacy-info h4 {
-            font-size: 14px;
-            margin-bottom: 2px;
-        }
-
-        .pharmacy-info span {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .pharmacy-status {
-            width: 10px;
-            height: 10px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-
-        /* AI Preview */
-        .ai-preview {
-            text-align: center;
-        }
-
-        .ai-brain {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(0, 230, 118, 0.2) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 48px;
-            animation: brainPulse 3s infinite;
-        }
-
-        @keyframes brainPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.4); }
-            50% { box-shadow: 0 0 0 30px rgba(0, 217, 255, 0); }
-        }
-
-        .ai-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .ai-metric {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            border-radius: 10px;
-        }
-
-        .ai-metric-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .ai-metric-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-        }
-
-        /* Dashboard Preview */
-        .dashboard-mini {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .dash-zone {
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .dash-zone.danger {
-            background: rgba(255, 68, 68, 0.15);
-            border: 1px solid rgba(255, 68, 68, 0.3);
-        }
-
-        .dash-zone.warning {
-            background: rgba(255, 215, 0, 0.15);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .dash-zone.safe {
-            background: rgba(0, 230, 118, 0.15);
-            border: 1px solid rgba(0, 230, 118, 0.3);
-        }
-
-        .dash-zone h4 {
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .dash-zone .percent {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
+        :root { --primary: #00D9FF; --secondary: #FF6B35; --success: #00E676; --warning: #FFD700; --danger: #FF4444; --bg-dark: #0A0A0F; --bg-card: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08); --text-primary: #FFFFFF; --text-secondary: rgba(255, 255, 255, 0.6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); min-height: 100vh; color: var(--text-primary); overflow-x: hidden; }
+        .demo-header { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%); border-bottom: 1px solid var(--border); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; backdrop-filter: blur(20px); }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--bg-dark); }
+        .logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; }
+        .logo-text span { color: var(--primary); }
+        .header-nav { display: flex; gap: 16px; }
+        .nav-link { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); text-decoration: none; font-size: 14px; transition: all 0.3s ease; }
+        .nav-link:hover { border-color: var(--primary); background: rgba(0, 217, 255, 0.1); }
+        .nav-link.primary { background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); color: var(--bg-dark); border: none; font-weight: 600; }
+        .main-content { padding: 120px 40px 40px; max-width: 1400px; margin: 0 auto; }
+        .demo-hero { text-align: center; margin-bottom: 60px; }
+        .demo-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 68, 68, 0.15) 100%); border: 1px solid rgba(255, 107, 53, 0.3); padding: 8px 20px; border-radius: 30px; font-size: 13px; color: var(--secondary); margin-bottom: 24px; }
+        .demo-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .demo-hero p { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px; line-height: 1.7; }
+        .flow-container { position: relative; }
+        .flow-line { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); width: 4px; height: calc(100% - 200px); background: linear-gradient(180deg, var(--primary) 0%, var(--success) 50%, var(--warning) 100%); border-radius: 2px; z-index: 0; }
+        .flow-step { display: flex; gap: 60px; margin-bottom: 80px; position: relative; z-index: 1; }
+        .flow-step.reverse { flex-direction: row-reverse; }
+        .step-content { flex: 1; max-width: 500px; }
+        .step-number { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--bg-dark); margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0, 217, 255, 0.3); }
+        .step-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 12px; }
+        .step-content p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
+        .step-features { display: flex; flex-wrap: wrap; gap: 10px; }
+        .feature-tag { padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+        .feature-tag i { color: var(--primary); }
+        .step-visual { flex: 1; max-width: 500px; }
+        .preview-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; transition: all 0.3s ease; }
+        .preview-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); border-color: var(--primary); }
+        .preview-header { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 230, 118, 0.1) 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .preview-title { font-size: 14px; font-weight: 600; }
+        .preview-btn { padding: 8px 16px; background: var(--primary); color: var(--bg-dark); border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .preview-btn:hover { transform: scale(1.05); }
+        .preview-content { padding: 24px; }
+        .pharmacy-mini { display: flex; flex-direction: column; gap: 12px; }
+        .pharmacy-item { display: flex; gap: 12px; align-items: center; padding: 12px; background: rgba(255, 255, 255, 0.02); border-radius: 12px; }
+        .pharmacy-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); }
+        .pharmacy-info { flex: 1; }
+        .pharmacy-info h4 { font-size: 14px; margin-bottom: 2px; }
+        .pharmacy-info span { font-size: 12px; color: var(--text-secondary); }
+        .pharmacy-status { width: 10px; height: 10px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.7; } }
+        .ai-preview { text-align: center; }
+        .ai-brain { width: 100px; height: 100px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(0, 230, 118, 0.2) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 48px; animation: brainPulse 3s infinite; }
+        @keyframes brainPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.4); } 50% { box-shadow: 0 0 0 30px rgba(0, 217, 255, 0); } }
+        .ai-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .ai-metric { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 10px; }
+        .ai-metric-value { font-size: 20px; font-weight: 700; color: var(--primary); }
+        .ai-metric-label { font-size: 10px; color: var(--text-secondary); }
+        .dashboard-mini { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .dash-zone { padding: 16px; border-radius: 12px; text-align: center; }
+        .dash-zone.danger { background: rgba(255, 68, 68, 0.15); border: 1px solid rgba(255, 68, 68, 0.3); }
+        .dash-zone.warning { background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.3); }
+        .dash-zone.safe { background: rgba(0, 230, 118, 0.15); border: 1px solid rgba(0, 230, 118, 0.3); }
+        .dash-zone h4 { font-size: 13px; margin-bottom: 4px; }
+        .dash-zone .percent { font-size: 24px; font-weight: 700; }
         .dash-zone.danger .percent { color: var(--danger); }
         .dash-zone.warning .percent { color: var(--warning); }
         .dash-zone.safe .percent { color: var(--success); }
-
-        /* Action Preview */
-        .action-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .action-item {
-            display: flex;
-            gap: 12px;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border-left: 3px solid;
-        }
-
-        .action-item.urgent {
-            border-color: var(--danger);
-        }
-
-        .action-item.high {
-            border-color: var(--secondary);
-        }
-
-        .action-item.medium {
-            border-color: var(--warning);
-        }
-
-        .action-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .action-item.urgent .action-icon {
-            background: rgba(255, 68, 68, 0.15);
-            color: var(--danger);
-        }
-
-        .action-item.high .action-icon {
-            background: rgba(255, 107, 53, 0.15);
-            color: var(--secondary);
-        }
-
-        .action-item.medium .action-icon {
-            background: rgba(255, 215, 0, 0.15);
-            color: var(--warning);
-        }
-
-        .action-info h4 {
-            font-size: 13px;
-            margin-bottom: 2px;
-        }
-
-        .action-info span {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 80px 40px;
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 230, 118, 0.05) 100%);
-            border-radius: 32px;
-            margin-top: 60px;
-        }
-
-        .cta-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 36px;
-            margin-bottom: 16px;
-        }
-
-        .cta-section p {
-            color: var(--text-secondary);
-            font-size: 18px;
-            margin-bottom: 32px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-btn {
-            padding: 16px 32px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cta-btn.primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
-            color: var(--bg-dark);
-            border: none;
-        }
-
-        .cta-btn.secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            border-top: 1px solid var(--border);
-            margin-top: 80px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .flow-step, .flow-step.reverse {
-                flex-direction: column;
-                gap: 30px;
-            }
-            .step-content, .step-visual {
-                max-width: 100%;
-            }
-            .flow-line {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .demo-header {
-                padding: 16px 20px;
-            }
-            .header-nav {
-                display: none;
-            }
-            .demo-hero h1 {
-                font-size: 32px;
-            }
-            .main-content {
-                padding: 100px 20px 20px;
-            }
-        }
+        .action-list { display: flex; flex-direction: column; gap: 12px; }
+        .action-item { display: flex; gap: 12px; padding: 14px; background: rgba(255, 255, 255, 0.02); border-radius: 12px; border-left: 3px solid; }
+        .action-item.urgent { border-color: var(--danger); }
+        .action-item.high { border-color: var(--secondary); }
+        .action-item.medium { border-color: var(--warning); }
+        .action-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .action-item.urgent .action-icon { background: rgba(255, 68, 68, 0.15); color: var(--danger); }
+        .action-item.high .action-icon { background: rgba(255, 107, 53, 0.15); color: var(--secondary); }
+        .action-item.medium .action-icon { background: rgba(255, 215, 0, 0.15); color: var(--warning); }
+        .action-info h4 { font-size: 13px; margin-bottom: 2px; }
+        .action-info span { font-size: 11px; color: var(--text-secondary); }
+        .cta-section { text-align: center; padding: 80px 40px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 230, 118, 0.05) 100%); border-radius: 32px; margin-top: 60px; }
+        .cta-section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; margin-bottom: 16px; }
+        .cta-section p { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn { padding: 16px 32px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .cta-btn.primary { background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); color: var(--bg-dark); border: none; }
+        .cta-btn.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2); }
+        footer { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 14px; border-top: 1px solid var(--border); margin-top: 80px; }
+        @media (max-width: 1024px) { .flow-step, .flow-step.reverse { flex-direction: column; gap: 30px; } .step-content, .step-visual { max-width: 100%; } .flow-line { display: none; } }
+        @media (max-width: 768px) { .demo-header { padding: 16px 20px; } .header-nav { display: none; } .demo-hero h1 { font-size: 32px; } .main-content { padding: 100px 20px 20px; } }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="demo-header">
         <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-heartbeat"></i>
-            </div>
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
             <div class="logo-text">PULSE<span>DENGUE</span></div>
         </div>
         <nav class="header-nav">
-            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Inicio</a>
-            <a href="app-farmacia.html" class="nav-link"><i class="fas fa-mobile-alt"></i> App Farmacia</a>
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="pharmacy-app.html" class="nav-link"><i class="fas fa-mobile-alt"></i> Pharmacy App</a>
             <a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="mockups.html" class="nav-link primary"><i class="fas fa-images"></i> Ver Mockups</a>
+            <a href="mockups.html" class="nav-link primary"><i class="fas fa-images"></i> View Mockups</a>
         </nav>
     </header>
-
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Hero -->
         <section class="demo-hero">
-            <div class="demo-badge">
-                <i class="fas fa-flask"></i>
-                Demo Interactivo
-            </div>
-            <h1>Cómo Funciona PULSE DENGUE</h1>
-            <p>
-                Desde el reporte del farmacéutico hasta la acción preventiva. 
-                Explora cada paso del sistema que predice brotes de dengue 
-                2-3 semanas antes de que ocurran.
-            </p>
+            <div class="demo-badge"><i class="fas fa-flask"></i> Interactive Demo</div>
+            <h1>How PULSE DENGUE Works</h1>
+            <p>From the pharmacist's report to preventive action. Explore each step of the system that predicts dengue outbreaks 2-3 weeks before they occur.</p>
         </section>
-
-        <!-- Flow -->
         <div class="flow-container">
             <div class="flow-line"></div>
-
-            <!-- Step 1: SENSE -->
             <div class="flow-step">
                 <div class="step-content">
                     <div class="step-number">1</div>
-                    <h2>📱 SENSE - Captura de Señales</h2>
-                    <p>
-                        Los farmacéuticos reportan observaciones diarias a través de una app 
-                        simple que toma solo 2 minutos. Registran ventas de antifebriles, 
-                        repelentes y consultas de síntomas.
-                    </p>
+                    <h2>📱 SENSE - Signal Capture</h2>
+                    <p>Pharmacists report daily observations through a simple app that takes only 2 minutes. They record sales of antipyretics, repellents, and symptom inquiries.</p>
                     <div class="step-features">
-                        <span class="feature-tag"><i class="fas fa-clock"></i> 2 min/día</span>
-                        <span class="feature-tag"><i class="fas fa-wifi-slash"></i> Funciona offline</span>
-                        <span class="feature-tag"><i class="fas fa-trophy"></i> Gamificación</span>
-                        <span class="feature-tag"><i class="fas fa-mobile-alt"></i> Cualquier smartphone</span>
+                        <span class="feature-tag"><i class="fas fa-clock"></i> 2 min/day</span>
+                        <span class="feature-tag"><i class="fas fa-wifi-slash"></i> Works offline</span>
+                        <span class="feature-tag"><i class="fas fa-trophy"></i> Gamification</span>
+                        <span class="feature-tag"><i class="fas fa-mobile-alt"></i> Any smartphone</span>
                     </div>
                 </div>
                 <div class="step-visual">
                     <div class="preview-card">
                         <div class="preview-header">
-                            <span class="preview-title">Red de Farmacias Activas</span>
-                            <a href="app-farmacia.html" class="preview-btn">Probar App</a>
+                            <span class="preview-title">Active Pharmacy Network</span>
+                            <a href="pharmacy-app.html" class="preview-btn">Try App</a>
                         </div>
                         <div class="preview-content">
                             <div class="pharmacy-mini">
                                 <div class="pharmacy-item">
                                     <div class="pharmacy-avatar"><i class="fas fa-prescription-bottle-medical"></i></div>
-                                    <div class="pharmacy-info">
-                                        <h4>Farmacia San Martín</h4>
-                                        <span>Zona Norte • Reportó hace 5 min</span>
-                                    </div>
+                                    <div class="pharmacy-info"><h4>San Martin Pharmacy</h4><span>North Zone • Reported 5 min ago</span></div>
                                     <div class="pharmacy-status"></div>
                                 </div>
                                 <div class="pharmacy-item">
                                     <div class="pharmacy-avatar"><i class="fas fa-prescription-bottle-medical"></i></div>
-                                    <div class="pharmacy-info">
-                                        <h4>Farmacia Bolivia</h4>
-                                        <span>Zona Este • Reportó hace 12 min</span>
-                                    </div>
+                                    <div class="pharmacy-info"><h4>Bolivia Pharmacy</h4><span>East Zone • Reported 12 min ago</span></div>
                                     <div class="pharmacy-status"></div>
                                 </div>
                                 <div class="pharmacy-item">
                                     <div class="pharmacy-avatar"><i class="fas fa-prescription-bottle-medical"></i></div>
-                                    <div class="pharmacy-info">
-                                        <h4>Farmacia Central</h4>
-                                        <span>Zona Centro • Reportó hace 23 min</span>
-                                    </div>
+                                    <div class="pharmacy-info"><h4>Central Pharmacy</h4><span>Center Zone • Reported 23 min ago</span></div>
                                     <div class="pharmacy-status"></div>
                                 </div>
                             </div>
@@ -681,148 +153,98 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Step 2: ANALYZE -->
             <div class="flow-step reverse">
                 <div class="step-content">
                     <div class="step-number">2</div>
-                    <h2>🧠 ANALYZE - Motor de Predicción IA</h2>
-                    <p>
-                        Nuestro modelo de machine learning fusiona datos de farmacias 
-                        con información climática, patrones históricos y tendencias de 
-                        búsqueda para calcular probabilidades de brote.
-                    </p>
+                    <h2>🧠 ANALYZE - AI Prediction Engine</h2>
+                    <p>Our machine learning model fuses pharmacy data with climate information, historical patterns, and search trends to calculate outbreak probabilities.</p>
                     <div class="step-features">
                         <span class="feature-tag"><i class="fas fa-brain"></i> Machine Learning</span>
-                        <span class="feature-tag"><i class="fas fa-cloud-sun"></i> Datos climáticos</span>
-                        <span class="feature-tag"><i class="fas fa-history"></i> Patrones históricos</span>
-                        <span class="feature-tag"><i class="fas fa-search"></i> Tendencias Google</span>
+                        <span class="feature-tag"><i class="fas fa-cloud-sun"></i> Climate data</span>
+                        <span class="feature-tag"><i class="fas fa-history"></i> Historical patterns</span>
+                        <span class="feature-tag"><i class="fas fa-search"></i> Google trends</span>
                     </div>
                 </div>
                 <div class="step-visual">
                     <div class="preview-card">
                         <div class="preview-header">
-                            <span class="preview-title">Motor de Predicción</span>
-                            <span class="preview-btn" style="background: var(--success);">En vivo</span>
+                            <span class="preview-title">Prediction Engine</span>
+                            <span class="preview-btn" style="background: var(--success);">Live</span>
                         </div>
                         <div class="preview-content">
                             <div class="ai-preview">
                                 <div class="ai-brain">🧠</div>
-                                <p style="color: var(--text-secondary); font-size: 14px;">
-                                    Procesando 156 reportes de hoy...
-                                </p>
+                                <p style="color: var(--text-secondary); font-size: 14px;">Processing 156 reports from today...</p>
                                 <div class="ai-metrics">
-                                    <div class="ai-metric">
-                                        <div class="ai-metric-value">5</div>
-                                        <div class="ai-metric-label">Zonas</div>
-                                    </div>
-                                    <div class="ai-metric">
-                                        <div class="ai-metric-value">20</div>
-                                        <div class="ai-metric-label">Farmacias</div>
-                                    </div>
-                                    <div class="ai-metric">
-                                        <div class="ai-metric-value">85%</div>
-                                        <div class="ai-metric-label">Precisión</div>
-                                    </div>
+                                    <div class="ai-metric"><div class="ai-metric-value">5</div><div class="ai-metric-label">Zones</div></div>
+                                    <div class="ai-metric"><div class="ai-metric-value">20</div><div class="ai-metric-label">Pharmacies</div></div>
+                                    <div class="ai-metric"><div class="ai-metric-value">85%</div><div class="ai-metric-label">Accuracy</div></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Step 3: ALERT -->
             <div class="flow-step">
                 <div class="step-content">
                     <div class="step-number">3</div>
-                    <h2>🗺️ ALERT - Mapa de Riesgo en Tiempo Real</h2>
-                    <p>
-                        Las autoridades de salud visualizan un mapa interactivo con 
-                        niveles de riesgo por zona, tendencias y alertas priorizadas 
-                        que permiten focalizar recursos donde más se necesitan.
-                    </p>
+                    <h2>🗺️ ALERT - Real-Time Risk Map</h2>
+                    <p>Health authorities visualize an interactive map with risk levels by zone, trends, and prioritized alerts that allow focusing resources where they are most needed.</p>
                     <div class="step-features">
-                        <span class="feature-tag"><i class="fas fa-map-marked-alt"></i> Mapa interactivo</span>
-                        <span class="feature-tag"><i class="fas fa-chart-line"></i> Tendencias 7/14/21 días</span>
-                        <span class="feature-tag"><i class="fas fa-bell"></i> Alertas automáticas</span>
-                        <span class="feature-tag"><i class="fas fa-download"></i> Reportes exportables</span>
+                        <span class="feature-tag"><i class="fas fa-map-marked-alt"></i> Interactive map</span>
+                        <span class="feature-tag"><i class="fas fa-chart-line"></i> 7/14/21-day trends</span>
+                        <span class="feature-tag"><i class="fas fa-bell"></i> Automatic alerts</span>
+                        <span class="feature-tag"><i class="fas fa-download"></i> Exportable reports</span>
                     </div>
                 </div>
                 <div class="step-visual">
                     <div class="preview-card">
                         <div class="preview-header">
-                            <span class="preview-title">Mapa de Riesgo</span>
-                            <a href="dashboard.html" class="preview-btn">Ver Dashboard</a>
+                            <span class="preview-title">Risk Map</span>
+                            <a href="dashboard.html" class="preview-btn">View Dashboard</a>
                         </div>
                         <div class="preview-content">
                             <div class="dashboard-mini">
-                                <div class="dash-zone danger">
-                                    <h4>Zona Norte</h4>
-                                    <div class="percent">85%</div>
-                                </div>
-                                <div class="dash-zone warning">
-                                    <h4>Zona Este</h4>
-                                    <div class="percent">52%</div>
-                                </div>
-                                <div class="dash-zone warning">
-                                    <h4>Zona Centro</h4>
-                                    <div class="percent">38%</div>
-                                </div>
-                                <div class="dash-zone safe">
-                                    <h4>Zona Sur</h4>
-                                    <div class="percent">15%</div>
-                                </div>
+                                <div class="dash-zone danger"><h4>North Zone</h4><div class="percent">85%</div></div>
+                                <div class="dash-zone warning"><h4>East Zone</h4><div class="percent">52%</div></div>
+                                <div class="dash-zone warning"><h4>Center Zone</h4><div class="percent">38%</div></div>
+                                <div class="dash-zone safe"><h4>South Zone</h4><div class="percent">15%</div></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Step 4: ACT -->
             <div class="flow-step reverse">
                 <div class="step-content">
                     <div class="step-number">4</div>
-                    <h2>⚡ ACT - Recomendaciones Accionables</h2>
-                    <p>
-                        El sistema genera recomendaciones específicas con plazos claros: 
-                        dónde fumigar, qué hospitales preparar, qué comunicar a la 
-                        comunidad. No solo datos, sino acciones concretas.
-                    </p>
+                    <h2>⚡ ACT - Actionable Recommendations</h2>
+                    <p>The system generates specific recommendations with clear deadlines: where to fumigate, which hospitals to prepare, what to communicate to the community. Not just data, but concrete actions.</p>
                     <div class="step-features">
-                        <span class="feature-tag"><i class="fas fa-spray-can"></i> Fumigación dirigida</span>
-                        <span class="feature-tag"><i class="fas fa-hospital"></i> Preparación hospitalaria</span>
-                        <span class="feature-tag"><i class="fas fa-bullhorn"></i> Comunicación pública</span>
-                        <span class="feature-tag"><i class="fas fa-clock"></i> Plazos definidos</span>
+                        <span class="feature-tag"><i class="fas fa-spray-can"></i> Targeted fumigation</span>
+                        <span class="feature-tag"><i class="fas fa-hospital"></i> Hospital preparation</span>
+                        <span class="feature-tag"><i class="fas fa-bullhorn"></i> Public communication</span>
+                        <span class="feature-tag"><i class="fas fa-clock"></i> Defined deadlines</span>
                     </div>
                 </div>
                 <div class="step-visual">
                     <div class="preview-card">
                         <div class="preview-header">
-                            <span class="preview-title">Acciones Recomendadas</span>
-                            <span class="preview-btn" style="background: var(--danger);">3 Urgentes</span>
+                            <span class="preview-title">Recommended Actions</span>
+                            <span class="preview-btn" style="background: var(--danger);">3 Urgent</span>
                         </div>
                         <div class="preview-content">
                             <div class="action-list">
                                 <div class="action-item urgent">
                                     <div class="action-icon"><i class="fas fa-spray-can"></i></div>
-                                    <div class="action-info">
-                                        <h4>Fumigación Zona Norte</h4>
-                                        <span>Dentro de 48 horas • 15 km² prioritarios</span>
-                                    </div>
+                                    <div class="action-info"><h4>Fumigation North Zone</h4><span>Within 48 hours • 15 km² priority area</span></div>
                                 </div>
                                 <div class="action-item high">
                                     <div class="action-icon"><i class="fas fa-hospital"></i></div>
-                                    <div class="action-info">
-                                        <h4>Preparar Hospital Municipal</h4>
-                                        <span>7 días • +30 camas, stock de sueros</span>
-                                    </div>
+                                    <div class="action-info"><h4>Prepare Municipal Hospital</h4><span>7 days • +30 beds, serum stock</span></div>
                                 </div>
                                 <div class="action-item medium">
                                     <div class="action-icon"><i class="fas fa-bullhorn"></i></div>
-                                    <div class="action-info">
-                                        <h4>Campaña de Prevención</h4>
-                                        <span>Esta semana • Redes sociales y radio</span>
-                                    </div>
+                                    <div class="action-info"><h4>Prevention Campaign</h4><span>This week • Social media and radio</span></div>
                                 </div>
                             </div>
                         </div>
@@ -830,29 +252,16 @@
                 </div>
             </div>
         </div>
-
-        <!-- CTA Section -->
         <section class="cta-section">
-            <h2>¿Listo para Ver el Sistema Completo?</h2>
-            <p>Explora cada componente de PULSE DENGUE en detalle</p>
+            <h2>Ready to See the Complete System?</h2>
+            <p>Explore each component of PULSE DENGUE in detail</p>
             <div class="cta-buttons">
-                <a href="app-farmacia.html" class="cta-btn secondary">
-                    <i class="fas fa-mobile-alt"></i>
-                    Probar App Farmacia
-                </a>
-                <a href="dashboard.html" class="cta-btn primary">
-                    <i class="fas fa-chart-line"></i>
-                    Ver Dashboard
-                </a>
-                <a href="pitch-deck.html" class="cta-btn secondary">
-                    <i class="fas fa-presentation"></i>
-                    Ver Pitch Deck
-                </a>
+                <a href="pharmacy-app.html" class="cta-btn secondary"><i class="fas fa-mobile-alt"></i> Try Pharmacy App</a>
+                <a href="dashboard.html" class="cta-btn primary"><i class="fas fa-chart-line"></i> View Dashboard</a>
+                <a href="pitch-deck.html" class="cta-btn secondary"><i class="fas fa-presentation"></i> View Pitch Deck</a>
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
     <footer>
         <p>PULSE DENGUE - MIT Solve Future Health Challenge 2026</p>
         <p>Santa Cruz, Bolivia 🇧🇴</p>
