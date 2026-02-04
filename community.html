@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - Community Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --purple: #9B59B6;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+
+        /* Mobile Frame */
+        .mobile-container { max-width: 420px; margin: 0 auto; min-height: 100vh; position: relative; }
+        
+        /* Header */
+        .app-header { background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); padding: 20px; padding-top: 50px; border-radius: 0 0 30px 30px; position: relative; }
+        .status-bar { position: absolute; top: 12px; left: 20px; right: 20px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 500; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .header-left h1 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--bg-dark); }
+        .header-left p { font-size: 13px; color: rgba(0,0,0,0.6); }
+        .header-right { display: flex; gap: 12px; }
+        .header-btn { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-size: 18px; }
+        
+        /* Location Banner */
+        .location-banner { background: var(--bg-card); border: 1px solid var(--border); margin: -20px 16px 16px; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 10; }
+        .location-icon { width: 44px; height: 44px; background: rgba(0,217,255,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; }
+        .location-info { flex: 1; }
+        .location-name { font-size: 14px; font-weight: 600; }
+        .location-detail { font-size: 12px; color: var(--text-secondary); }
+        .location-change { color: var(--primary); font-size: 12px; font-weight: 600; }
+
+        /* Risk Card */
+        .risk-card { margin: 0 16px 20px; border-radius: 20px; padding: 24px; position: relative; overflow: hidden; }
+        .risk-card.low { background: linear-gradient(135deg, rgba(0,230,118,0.2) 0%, rgba(0,217,255,0.2) 100%); border: 1px solid rgba(0,230,118,0.3); }
+        .risk-card.medium { background: linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,107,53,0.2) 100%); border: 1px solid rgba(255,215,0,0.3); }
+        .risk-card.high { background: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,68,68,0.2) 100%); border: 1px solid rgba(255,107,53,0.3); }
+        .risk-card.critical { background: linear-gradient(135deg, rgba(255,68,68,0.3) 0%, rgba(255,68,68,0.1) 100%); border: 1px solid rgba(255,68,68,0.4); animation: pulse-risk 2s infinite; }
+        @keyframes pulse-risk { 0%, 100% { box-shadow: 0 0 20px rgba(255,68,68,0.2); } 50% { box-shadow: 0 0 40px rgba(255,68,68,0.4); } }
+        .risk-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .risk-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .risk-badge { padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .risk-badge.low { background: rgba(0,230,118,0.2); color: var(--success); }
+        .risk-badge.medium { background: rgba(255,215,0,0.2); color: var(--warning); }
+        .risk-badge.high { background: rgba(255,107,53,0.2); color: var(--secondary); }
+        .risk-badge.critical { background: rgba(255,68,68,0.2); color: var(--danger); }
+        .risk-value { font-family: 'Space Grotesk', sans-serif; font-size: 56px; font-weight: 700; line-height: 1; margin-bottom: 8px; }
+        .risk-card.low .risk-value { color: var(--success); }
+        .risk-card.medium .risk-value { color: var(--warning); }
+        .risk-card.high .risk-value { color: var(--secondary); }
+        .risk-card.critical .risk-value { color: var(--danger); }
+        .risk-message { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .risk-updated { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .risk-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .risk-action { flex: 1; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 12px; text-align: center; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .risk-action:hover { background: rgba(255,255,255,0.15); }
+        .risk-action i { display: block; font-size: 20px; margin-bottom: 6px; }
+
+        /* Quick Actions */
+        .section-title { font-size: 16px; font-weight: 600; padding: 0 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--primary); }
+        .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px; margin-bottom: 24px; }
+        .quick-action { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .quick-action:hover { transform: translateY(-4px); border-color: var(--primary); }
+        .quick-action-icon { width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .quick-action-icon.report { background: rgba(255,107,53,0.15); color: var(--secondary); }
+        .quick-action-icon.tips { background: rgba(0,230,118,0.15); color: var(--success); }
+        .quick-action-icon.map { background: rgba(0,217,255,0.15); color: var(--primary); }
+        .quick-action-icon.alerts { background: rgba(255,215,0,0.15); color: var(--warning); }
+        .quick-action-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .quick-action-desc { font-size: 11px; color: var(--text-muted); }
+
+        /* Prevention Tips */
+        .tips-carousel { padding: 0 16px; margin-bottom: 24px; }
+        .tips-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory; }
+        .tips-scroll::-webkit-scrollbar { height: 4px; }
+        .tips-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+        .tip-card { min-width: 280px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; scroll-snap-align: start; }
+        .tip-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .tip-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), var(--success)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--bg-dark); }
+        .tip-category { font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .tip-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+        .tip-content { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Community Reports */
+        .reports-section { padding: 0 16px; margin-bottom: 24px; }
+        .report-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; gap: 14px; }
+        .report-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, var(--purple), var(--primary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; flex-shrink: 0; }
+        .report-content { flex: 1; }
+        .report-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .report-user { font-size: 13px; font-weight: 600; }
+        .report-time { font-size: 11px; color: var(--text-muted); }
+        .report-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .report-location { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .report-status { padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+        .report-status.pending { background: rgba(255,215,0,0.15); color: var(--warning); }
+        .report-status.verified { background: rgba(0,230,118,0.15); color: var(--success); }
+        .report-status.resolved { background: rgba(0,217,255,0.15); color: var(--primary); }
+
+        /* Alert Banner */
+        .alert-banner { margin: 0 16px 20px; background: linear-gradient(90deg, rgba(255,68,68,0.2), rgba(255,107,53,0.2)); border: 1px solid rgba(255,68,68,0.3); border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px; }
+        .alert-banner-icon { width: 44px; height: 44px; background: rgba(255,68,68,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--danger); font-size: 20px; }
+        .alert-banner-content { flex: 1; }
+        .alert-banner-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+        .alert-banner-text { font-size: 12px; color: var(--text-secondary); }
+        .alert-banner-arrow { color: var(--text-muted); }
+
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 24px 24px; display: flex; justify-content: space-around; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; cursor: pointer; transition: all 0.2s; padding: 8px 16px; border-radius: 12px; }
+        .nav-item.active { color: var(--primary); background: rgba(0,217,255,0.1); }
+        .nav-item i { font-size: 20px; }
+
+        /* Report Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { width: 100%; max-width: 420px; background: var(--bg-dark); border-radius: 24px 24px 0 0; padding: 24px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; }
+        .modal-close { width: 36px; height: 36px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); cursor: pointer; }
+        .report-types { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .report-type { background: var(--bg-card); border: 2px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .report-type.selected { border-color: var(--primary); background: rgba(0,217,255,0.1); }
+        .report-type-icon { font-size: 32px; margin-bottom: 8px; }
+        .report-type-name { font-size: 13px; font-weight: 600; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; display: block; color: var(--text-secondary); }
+        .form-input, .form-textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 14px; font-family: inherit; }
+        .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--primary); }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .photo-upload { background: var(--bg-card); border: 2px dashed var(--border); border-radius: 16px; padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .photo-upload:hover { border-color: var(--primary); }
+        .photo-upload i { font-size: 32px; color: var(--text-muted); margin-bottom: 8px; }
+        .photo-upload p { font-size: 13px; color: var(--text-secondary); }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--success)); border: none; border-radius: 14px; font-size: 15px; font-weight: 600; color: var(--bg-dark); cursor: pointer; transition: all 0.3s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,217,255,0.3); }
+
+        /* Map View */
+        .map-container { display: none; padding: 0 16px; margin-bottom: 100px; }
+        .map-container.active { display: block; }
+        .map-placeholder { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .map-bg { position: absolute; inset: 0; opacity: 0.3; background: linear-gradient(45deg, var(--primary) 0%, var(--success) 50%, var(--warning) 100%); }
+        .map-zones { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 80px); grid-template-rows: repeat(3, 60px); gap: 8px; }
+        .map-zone { border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+        .map-zone:hover { transform: scale(1.1); }
+        .map-zone.low { background: rgba(0,230,118,0.6); color: var(--bg-dark); }
+        .map-zone.medium { background: rgba(255,215,0,0.6); color: var(--bg-dark); }
+        .map-zone.high { background: rgba(255,107,53,0.6); color: white; }
+        .map-zone.critical { background: rgba(255,68,68,0.8); color: white; animation: zone-pulse 1.5s infinite; }
+        @keyframes zone-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .map-zone-value { font-family: 'Space Grotesk', sans-serif; font-size: 16px; }
+        .map-legend { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .legend-dot.low { background: var(--success); }
+        .legend-dot.medium { background: var(--warning); }
+        .legend-dot.high { background: var(--secondary); }
+        .legend-dot.critical { background: var(--danger); }
+
+        /* Back to portal */
+        .portal-link { position: fixed; top: 12px; left: 12px; width: 40px; height: 40px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; z-index: 50; }
+
+        /* Content padding for bottom nav */
+        .main-content { padding-bottom: 100px; }
+
+        /* Animations */
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-content { animation: slideUp 0.3s ease; }
+    </style>
+</head>
+<body>
+    <a href="portal.html" class="portal-link"><i class="fas fa-arrow-left"></i></a>
+    
+    <div class="mobile-container">
+        <header class="app-header">
+            <div class="status-bar">
+                <span>9:41 AM</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>PULSE Community</h1>
+                    <p>Dengue Prevention Network</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-btn"><i class="fas fa-bell"></i></div>
+                    <div class="header-btn"><i class="fas fa-user"></i></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="location-banner">
+            <div class="location-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="location-info">
+                <div class="location-name">North Zone, Santa Cruz</div>
+                <div class="location-detail">Barrio Equipetrol</div>
+            </div>
+            <span class="location-change">Change</span>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <!-- Home View -->
+            <div id="homeView">
+                <!-- Alert Banner (shown when high risk) -->
+                <div class="alert-banner">
+                    <div class="alert-banner-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="alert-banner-content">
+                        <div class="alert-banner-title">⚠️ Dengue Alert in Your Area</div>
+                        <div class="alert-banner-text">Increased activity detected. Take precautions.</div>
+                    </div>
+                    <div class="alert-banner-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+
+                <!-- Risk Card -->
+                <div class="risk-card high" id="riskCard">
+                    <div class="risk-header">
+                        <div class="risk-label">Current Risk Level</div>
+                        <div class="risk-badge high" id="riskBadge">High Risk</div>
+                    </div>
+                    <div class="risk-value" id="riskValue">67%</div>
+                    <div class="risk-message" id="riskMessage">Elevated dengue risk in your neighborhood. Enhanced prevention measures recommended.</div>
+                    <div class="risk-updated"><i class="fas fa-sync-alt"></i> Updated 15 minutes ago</div>
+                    <div class="risk-actions">
+                        <div class="risk-action" onclick="showSection('tips')">
+                            <i class="fas fa-shield-alt"></i>
+                            Prevention Tips
+                        </div>
+                        <div class="risk-action" onclick="showSection('map')">
+                            <i class="fas fa-map"></i>
+                            View Map
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section-title"><i class="fas fa-bolt"></i> Quick Actions</div>
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="openReportModal()">
+                        <div class="quick-action-icon report"><i class="fas fa-camera"></i></div>
+                        <div class="quick-action-title">Report Issue</div>
+                        <div class="quick-action-desc">Standing water, mosquitoes</div>
+                    </div>
+                    <div class="quick-action" onclick="showSection('tips')">
+                        <div class="quick-action-icon tips"><i class="fas fa-lightbulb"></i></div>
+                        <div class="quick-action-title">Prevention Tips</div>
+                        <div class="quick-action-desc">Protect your family</div>
+                    </div>
+                    <div class="quick-action" onclick="showSection('map')">
+                        <div class="quick-action-icon map"><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="quick-action-title">Risk Map</div>
+                        <div class="quick-action-desc">View all zones</div>
+                    </div>
+                    <div class="quick-action" onclick="showSection('alerts')">
+                        <div class="quick-action-icon alerts"><i class="fas fa-bell"></i></div>
+                        <div class="quick-action-title">Alerts</div>
+                        <div class="quick-action-desc">3 new notifications</div>
+                    </div>
+                </div>
+
+                <!-- Prevention Tips Carousel -->
+                <div class="section-title"><i class="fas fa-lightbulb"></i> Prevention Tips</div>
+                <div class="tips-carousel">
+                    <div class="tips-scroll">
+                        <div class="tip-card">
+                            <div class="tip-header">
+                                <div class="tip-icon">🪣</div>
+                                <div class="tip-category">Home Safety</div>
+                            </div>
+                            <div class="tip-title">Eliminate Standing Water</div>
+                            <div class="tip-content">Check buckets, flower pots, tires, and any container that can collect water. Empty them at least once a week.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-header">
+                                <div class="tip-icon">🪟</div>
+                                <div class="tip-category">Protection</div>
+                            </div>
+                            <div class="tip-title">Use Window Screens</div>
+                            <div class="tip-content">Install mosquito screens on windows and doors. Repair any holes or tears immediately.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-header">
+                                <div class="tip-icon">🧴</div>
+                                <div class="tip-category">Personal Care</div>
+                            </div>
+                            <div class="tip-title">Apply Repellent</div>
+                            <div class="tip-content">Use DEET-based repellent on exposed skin, especially during dawn and dusk when mosquitoes are most active.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-header">
+                                <div class="tip-icon">👕</div>
+                                <div class="tip-category">Clothing</div>
+                            </div>
+                            <div class="tip-title">Wear Protective Clothing</div>
+                            <div class="tip-content">Wear long sleeves and pants. Light-colored clothing is less attractive to mosquitoes.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Reports -->
+                <div class="section-title"><i class="fas fa-users"></i> Community Reports</div>
+                <div class="reports-section">
+                    <div class="report-item">
+                        <div class="report-avatar">MG</div>
+                        <div class="report-content">
+                            <div class="report-header">
+                                <span class="report-user">María G.</span>
+                                <span class="report-time">2 hours ago</span>
+                            </div>
+                            <div class="report-text">Abandoned tire with standing water on corner of Av. Busch and 2nd Ring</div>
+                            <div class="report-location">
+                                <i class="fas fa-map-marker-alt"></i> North Zone
+                                <span class="report-status verified">Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-avatar">JL</div>
+                        <div class="report-content">
+                            <div class="report-header">
+                                <span class="report-user">Juan L.</span>
+                                <span class="report-time">5 hours ago</span>
+                            </div>
+                            <div class="report-text">Multiple mosquitoes spotted near the park. Possible breeding site in drainage.</div>
+                            <div class="report-location">
+                                <i class="fas fa-map-marker-alt"></i> Equipetrol
+                                <span class="report-status pending">Pending Review</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-avatar">AC</div>
+                        <div class="report-content">
+                            <div class="report-header">
+                                <span class="report-user">Ana C.</span>
+                                <span class="report-time">Yesterday</span>
+                            </div>
+                            <div class="report-text">Construction site with multiple water-filled containers. Reported to authorities.</div>
+                            <div class="report-location">
+                                <i class="fas fa-map-marker-alt"></i> Urbarí
+                                <span class="report-status resolved">Resolved ✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map View -->
+            <div class="map-container" id="mapView">
+                <div class="section-title"><i class="fas fa-map"></i> Risk Map - Santa Cruz</div>
+                <div class="map-placeholder">
+                    <div class="map-bg"></div>
+                    <div class="map-zones">
+                        <div class="map-zone" style="visibility:hidden;"></div>
+                        <div class="map-zone critical">
+                            <span>North</span>
+                            <span class="map-zone-value">87%</span>
+                        </div>
+                        <div class="map-zone" style="visibility:hidden;"></div>
+                        <div class="map-zone medium">
+                            <span>West</span>
+                            <span class="map-zone-value">42%</span>
+                        </div>
+                        <div class="map-zone high">
+                            <span>Center</span>
+                            <span class="map-zone-value">56%</span>
+                        </div>
+                        <div class="map-zone high">
+                            <span>East</span>
+                            <span class="map-zone-value">63%</span>
+                        </div>
+                        <div class="map-zone" style="visibility:hidden;"></div>
+                        <div class="map-zone low">
+                            <span>South</span>
+                            <span class="map-zone-value">18%</span>
+                        </div>
+                        <div class="map-zone" style="visibility:hidden;"></div>
+                    </div>
+                    <div class="map-legend">
+                        <div class="legend-item"><span class="legend-dot low"></span> Low (0-30%)</div>
+                        <div class="legend-item"><span class="legend-dot medium"></span> Medium (30-50%)</div>
+                        <div class="legend-item"><span class="legend-dot high"></span> High (50-75%)</div>
+                        <div class="legend-item"><span class="legend-dot critical"></span> Critical (75%+)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="showSection('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showSection('map')">
+                <i class="fas fa-map"></i>
+                <span>Map</span>
+            </div>
+            <div class="nav-item" onclick="openReportModal()">
+                <i class="fas fa-plus-circle" style="font-size:28px; color: var(--primary);"></i>
+                <span>Report</span>
+            </div>
+            <div class="nav-item" onclick="showSection('alerts')">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+            </div>
+            <div class="nav-item" onclick="showSection('profile')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">📍 Report an Issue</div>
+                <div class="modal-close" onclick="closeReportModal()"><i class="fas fa-times"></i></div>
+            </div>
+            
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:20px;">Help protect your community by reporting potential mosquito breeding sites or dengue symptoms.</p>
+            
+            <div class="form-group">
+                <div class="form-label">What are you reporting?</div>
+                <div class="report-types">
+                    <div class="report-type selected" onclick="selectReportType(this)">
+                        <div class="report-type-icon">🪣</div>
+                        <div class="report-type-name">Standing Water</div>
+                    </div>
+                    <div class="report-type" onclick="selectReportType(this)">
+                        <div class="report-type-icon">🦟</div>
+                        <div class="report-type-name">Mosquitoes</div>
+                    </div>
+                    <div class="report-type" onclick="selectReportType(this)">
+                        <div class="report-type-icon">🏚️</div>
+                        <div class="report-type-name">Abandoned Site</div>
+                    </div>
+                    <div class="report-type" onclick="selectReportType(this)">
+                        <div class="report-type-icon">🤒</div>
+                        <div class="report-type-name">Symptoms</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Location</div>
+                <input type="text" class="form-input" placeholder="Enter address or use current location" value="Av. Busch, North Zone">
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Description</div>
+                <textarea class="form-textarea" placeholder="Describe what you observed..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Add Photo (optional)</div>
+                <div class="photo-upload">
+                    <i class="fas fa-camera"></i>
+                    <p>Tap to take a photo or upload</p>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="submitReport()">
+                <i class="fas fa-paper-plane"></i> Submit Report
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(section) {
+            const homeView = document.getElementById('homeView');
+            const mapView = document.getElementById('mapView');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Reset all nav items
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            if (section === 'home') {
+                homeView.style.display = 'block';
+                mapView.classList.remove('active');
+                navItems[0].classList.add('active');
+            } else if (section === 'map') {
+                homeView.style.display = 'none';
+                mapView.classList.add('active');
+                navItems[1].classList.add('active');
+            } else if (section === 'tips') {
+                homeView.style.display = 'block';
+                mapView.classList.remove('active');
+                navItems[0].classList.add('active');
+                // Scroll to tips
+                document.querySelector('.tips-carousel').scrollIntoView({ behavior: 'smooth' });
+            } else if (section === 'alerts') {
+                navItems[3].classList.add('active');
+                alert('🔔 Alerts:\n\n⚠️ High risk alert in North Zone\n📢 Fumigation scheduled for Feb 6\n✅ Your report was verified');
+            } else if (section === 'profile') {
+                navItems[4].classList.add('active');
+                alert('👤 Community Member\n\n📊 Reports submitted: 5\n⭐ Verified reports: 4\n🏆 Rank: Community Guardian');
+            }
+        }
+
+        function openReportModal() {
+            document.getElementById('reportModal').classList.add('active');
+        }
+
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.remove('active');
+        }
+
+        function selectReportType(element) {
+            document.querySelectorAll('.report-type').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function submitReport() {
+            closeReportModal();
+            alert('✅ Report Submitted!\n\nThank you for helping protect your community. Our team will review your report within 24 hours.\n\n🏆 +10 Community Points earned!');
+        }
+
+        // Simulate risk level changes
+        function updateRiskLevel() {
+            const levels = [
+                { level: 'low', value: '23%', badge: 'Low Risk', message: 'Dengue risk is low in your area. Continue preventive measures.' },
+                { level: 'medium', value: '45%', badge: 'Moderate', message: 'Moderate dengue activity detected. Stay vigilant with prevention.' },
+                { level: 'high', value: '67%', badge: 'High Risk', message: 'Elevated dengue risk in your neighborhood. Enhanced prevention measures recommended.' },
+                { level: 'critical', value: '87%', badge: 'Critical', message: 'Critical outbreak risk! Take immediate precautions and avoid outdoor activities at dawn/dusk.' }
+            ];
+            
+            // For demo, show high risk
+            const current = levels[2];
+            const card = document.getElementById('riskCard');
+            card.className = 'risk-card ' + current.level;
+            document.getElementById('riskValue').textContent = current.value;
+            document.getElementById('riskBadge').textContent = current.badge;
+            document.getElementById('riskBadge').className = 'risk-badge ' + current.level;
+            document.getElementById('riskMessage').textContent = current.message;
+        }
+
+        // Initialize
+        updateRiskLevel();
+    </script>
+</body>
+</html>
