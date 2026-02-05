@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PULSE DENGUE - Report History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #00D9FF; --secondary: #FF6B35; --success: #00E676; --warning: #FFD700; --danger: #FF4444; --purple: #9B59B6; --bg-dark: #0A0A0F; --bg-darker: #050508; --bg-card: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08); --text-primary: #FFFFFF; --text-secondary: rgba(255, 255, 255, 0.6); --text-muted: rgba(255, 255, 255, 0.4); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+
+        .mobile-container { max-width: 480px; margin: 0 auto; min-height: 100vh; }
+
+        /* Header */
+        .header { background: linear-gradient(135deg, var(--secondary) 0%, #FF8F6B 100%); padding: 20px; padding-top: 50px; }
+        .header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+        .back-btn { width: 40px; height: 40px; background: rgba(0,0,0,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
+        .header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: white; }
+        .header-stats { display: flex; gap: 16px; }
+        .header-stat { flex: 1; background: rgba(0,0,0,0.15); border-radius: 12px; padding: 12px; text-align: center; }
+        .header-stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: white; }
+        .header-stat-label { font-size: 11px; color: rgba(255,255,255,0.7); }
+
+        /* Filters */
+        .filters { padding: 16px; display: flex; gap: 8px; overflow-x: auto; }
+        .filter-btn { padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); border-color: var(--primary); color: var(--bg-dark); }
+
+        /* Calendar Strip */
+        .calendar-strip { padding: 0 16px 16px; }
+        .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .month-title { font-size: 16px; font-weight: 600; }
+        .month-nav { display: flex; gap: 8px; }
+        .month-nav button { width: 32px; height: 32px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; }
+        .days-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+        .day-item { min-width: 48px; padding: 12px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .day-item:hover { border-color: var(--primary); }
+        .day-item.selected { background: var(--primary); border-color: var(--primary); }
+        .day-item.selected .day-name, .day-item.selected .day-num { color: var(--bg-dark); }
+        .day-item.has-report { border-color: var(--success); }
+        .day-item.has-report::after { content: ''; display: block; width: 6px; height: 6px; background: var(--success); border-radius: 50%; margin: 4px auto 0; }
+        .day-name { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        .day-num { font-size: 16px; font-weight: 600; margin-top: 4px; }
+
+        /* Reports List */
+        .reports-section { padding: 0 16px 100px; }
+        .section-title { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section-title i { color: var(--primary); }
+
+        .report-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 12px; overflow: hidden; }
+        .report-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .report-date { display: flex; align-items: center; gap: 12px; }
+        .report-day { width: 48px; height: 48px; background: rgba(0,217,255,0.15); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .report-day .num { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--primary); }
+        .report-day .month { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        .report-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .report-info p { font-size: 12px; color: var(--text-secondary); }
+        .report-status { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .report-status.synced { background: rgba(0,230,118,0.15); color: var(--success); }
+        .report-status.pending { background: rgba(255,215,0,0.15); color: var(--warning); }
+        .report-status.missed { background: rgba(255,68,68,0.15); color: var(--danger); }
+
+        .report-details { padding: 0 16px 16px; border-top: 1px solid var(--border); display: none; }
+        .report-details.open { display: block; padding-top: 16px; }
+        .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .detail-item { background: rgba(0,0,0,0.2); border-radius: 10px; padding: 12px; }
+        .detail-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .detail-value { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .detail-value.high { color: var(--danger); }
+        .detail-value.medium { color: var(--warning); }
+        .detail-value.normal { color: var(--success); }
+        .symptoms-list { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .symptom-tag { padding: 6px 12px; background: rgba(155,89,182,0.15); border-radius: 20px; font-size: 11px; color: var(--purple); }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 60px 20px; }
+        .empty-icon { font-size: 64px; margin-bottom: 16px; }
+        .empty-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .empty-desc { font-size: 14px; color: var(--text-secondary); }
+
+        /* Floating Button */
+        .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--success)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--bg-dark); box-shadow: 0 8px 30px rgba(0,217,255,0.4); cursor: pointer; transition: all 0.3s; text-decoration: none; }
+        .fab:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header class="header">
+            <div class="header-top">
+                <a href="pharmacy-app.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                <h1>📋 Report History</h1>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <div class="header-stat-value">28</div>
+                    <div class="header-stat-label">Reports This Month</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value">93%</div>
+                    <div class="header-stat-label">Compliance Rate</div>
+                </div>
+                <div class="header-stat">
+                    <div class="header-stat-value">🔥 12</div>
+                    <div class="header-stat-label">Day Streak</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="filters">
+            <div class="filter-btn active">All Reports</div>
+            <div class="filter-btn">This Week</div>
+            <div class="filter-btn">High Activity</div>
+            <div class="filter-btn">Pending Sync</div>
+            <div class="filter-btn">Missed Days</div>
+        </div>
+
+        <div class="calendar-strip">
+            <div class="month-selector">
+                <div class="month-title">February 2026</div>
+                <div class="month-nav">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="days-row">
+                <div class="day-item has-report">
+                    <div class="day-name">Sat</div>
+                    <div class="day-num">1</div>
+                </div>
+                <div class="day-item has-report">
+                    <div class="day-name">Sun</div>
+                    <div class="day-num">2</div>
+                </div>
+                <div class="day-item has-report">
+                    <div class="day-name">Mon</div>
+                    <div class="day-num">3</div>
+                </div>
+                <div class="day-item has-report">
+                    <div class="day-name">Tue</div>
+                    <div class="day-num">4</div>
+                </div>
+                <div class="day-item selected has-report">
+                    <div class="day-name">Wed</div>
+                    <div class="day-num">5</div>
+                </div>
+                <div class="day-item">
+                    <div class="day-name">Thu</div>
+                    <div class="day-num">6</div>
+                </div>
+                <div class="day-item">
+                    <div class="day-name">Fri</div>
+                    <div class="day-num">7</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reports-section">
+            <div class="section-title"><i class="fas fa-history"></i> Recent Reports</div>
+
+            <div class="report-card">
+                <div class="report-header" onclick="toggleReport(this)">
+                    <div class="report-date">
+                        <div class="report-day">
+                            <span class="num">5</span>
+                            <span class="month">Feb</span>
+                        </div>
+                        <div class="report-info">
+                            <h3>Daily Report</h3>
+                            <p>Submitted at 10:32 AM</p>
+                        </div>
+                    </div>
+                    <span class="report-status synced"><i class="fas fa-check"></i> Synced</span>
+                </div>
+                <div class="report-details open">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Fever Medicine</div>
+                            <div class="detail-value high"><i class="fas fa-arrow-up"></i> +50%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Repellents</div>
+                            <div class="detail-value high"><i class="fas fa-arrow-up"></i> +100%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Oral Rehydration</div>
+                            <div class="detail-value medium"><i class="fas fa-arrow-up"></i> +25%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mosquito Coils</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                    </div>
+                    <div class="symptoms-list">
+                        <span class="symptom-tag">🤒 Fever inquiries</span>
+                        <span class="symptom-tag">🤕 Headache</span>
+                        <span class="symptom-tag">💪 Body pain</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <div class="report-header" onclick="toggleReport(this)">
+                    <div class="report-date">
+                        <div class="report-day">
+                            <span class="num">4</span>
+                            <span class="month">Feb</span>
+                        </div>
+                        <div class="report-info">
+                            <h3>Daily Report</h3>
+                            <p>Submitted at 9:45 AM</p>
+                        </div>
+                    </div>
+                    <span class="report-status synced"><i class="fas fa-check"></i> Synced</span>
+                </div>
+                <div class="report-details">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Fever Medicine</div>
+                            <div class="detail-value medium"><i class="fas fa-arrow-up"></i> +25%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Repellents</div>
+                            <div class="detail-value high"><i class="fas fa-arrow-up"></i> +50%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Oral Rehydration</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mosquito Coils</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                    </div>
+                    <div class="symptoms-list">
+                        <span class="symptom-tag">🤒 Fever inquiries</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <div class="report-header" onclick="toggleReport(this)">
+                    <div class="report-date">
+                        <div class="report-day">
+                            <span class="num">3</span>
+                            <span class="month">Feb</span>
+                        </div>
+                        <div class="report-info">
+                            <h3>Daily Report</h3>
+                            <p>Submitted at 11:20 AM</p>
+                        </div>
+                    </div>
+                    <span class="report-status synced"><i class="fas fa-check"></i> Synced</span>
+                </div>
+                <div class="report-details">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Fever Medicine</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Repellents</div>
+                            <div class="detail-value medium"><i class="fas fa-arrow-up"></i> +25%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Oral Rehydration</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mosquito Coils</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <div class="report-header" onclick="toggleReport(this)">
+                    <div class="report-date">
+                        <div class="report-day">
+                            <span class="num">2</span>
+                            <span class="month">Feb</span>
+                        </div>
+                        <div class="report-info">
+                            <h3>Daily Report</h3>
+                            <p>Submitted at 10:05 AM</p>
+                        </div>
+                    </div>
+                    <span class="report-status synced"><i class="fas fa-check"></i> Synced</span>
+                </div>
+                <div class="report-details">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Fever Medicine</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Repellents</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Oral Rehydration</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mosquito Coils</div>
+                            <div class="detail-value normal"><i class="fas fa-minus"></i> Normal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-date">
+                        <div class="report-day" style="background: rgba(255,68,68,0.15);">
+                            <span class="num" style="color: var(--danger);">1</span>
+                            <span class="month">Feb</span>
+                        </div>
+                        <div class="report-info">
+                            <h3>Missing Report</h3>
+                            <p>No report submitted</p>
+                        </div>
+                    </div>
+                    <span class="report-status missed"><i class="fas fa-times"></i> Missed</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="pharmacy-app.html" class="fab" title="New Report">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
+    <script>
+        function toggleReport(element) {
+            const details = element.nextElementSibling;
+            if (details && details.classList.contains('report-details')) {
+                details.classList.toggle('open');
+            }
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.day-item').forEach(day => {
+            day.addEventListener('click', function() {
+                document.querySelectorAll('.day-item').forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

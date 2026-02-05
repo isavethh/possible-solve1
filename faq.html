@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PULSE DENGUE - Help & FAQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #00D9FF; --secondary: #FF6B35; --success: #00E676; --warning: #FFD700; --danger: #FF4444; --purple: #9B59B6; --bg-dark: #0A0A0F; --bg-darker: #050508; --bg-card: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08); --text-primary: #FFFFFF; --text-secondary: rgba(255, 255, 255, 0.6); --text-muted: rgba(255, 255, 255, 0.4); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+
+        .mobile-container { max-width: 480px; margin: 0 auto; min-height: 100vh; padding-bottom: 40px; }
+
+        /* Header */
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%); padding: 20px; padding-top: 50px; }
+        .header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .back-btn { width: 40px; height: 40px; background: rgba(0,0,0,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
+        .header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: white; }
+        .search-box { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 14px 16px; }
+        .search-box i { color: rgba(255,255,255,0.6); }
+        .search-box input { flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; }
+        .search-box input::placeholder { color: rgba(255,255,255,0.5); }
+
+        /* Quick Links */
+        .quick-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px 16px; }
+        .quick-link { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .quick-link:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .quick-link i { font-size: 24px; color: var(--primary); margin-bottom: 8px; display: block; }
+        .quick-link span { font-size: 12px; color: var(--text-secondary); }
+
+        /* FAQ Section */
+        .faq-section { padding: 0 16px 20px; }
+        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--primary); }
+
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
+        .faq-question { display: flex; align-items: center; gap: 14px; padding: 18px; cursor: pointer; transition: background 0.2s; }
+        .faq-question:hover { background: rgba(255,255,255,0.02); }
+        .faq-icon { width: 40px; height: 40px; background: rgba(0,217,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .faq-text { flex: 1; font-size: 14px; font-weight: 500; }
+        .faq-arrow { color: var(--text-muted); transition: transform 0.3s; }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-answer { padding: 0 18px 18px 72px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; display: none; }
+        .faq-item.open .faq-answer { display: block; }
+
+        /* Category Pills */
+        .categories { display: flex; gap: 8px; padding: 0 16px 16px; overflow-x: auto; }
+        .category-pill { padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+        .category-pill:hover, .category-pill.active { background: var(--primary); border-color: var(--primary); color: var(--bg-dark); }
+
+        /* Contact Card */
+        .contact-card { background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(155,89,182,0.1)); border: 1px solid rgba(0,217,255,0.2); border-radius: 20px; margin: 0 16px 20px; padding: 24px; text-align: center; }
+        .contact-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; margin: 0 auto 16px; }
+        .contact-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .contact-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+        .contact-buttons { display: flex; gap: 12px; }
+        .contact-btn { flex: 1; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .contact-btn.whatsapp { background: #25D366; color: white; border: none; }
+        .contact-btn.email { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); }
+        .contact-btn:hover { transform: translateY(-2px); }
+
+        /* Video Tutorials */
+        .tutorials-section { padding: 0 16px 20px; }
+        .tutorial-card { display: flex; gap: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
+        .tutorial-card:hover { border-color: var(--primary); }
+        .tutorial-thumb { width: 80px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; flex-shrink: 0; }
+        .tutorial-info { flex: 1; }
+        .tutorial-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+        .tutorial-meta { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header class="header">
+            <div class="header-top">
+                <a href="user-profile.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                <h1>❓ Help & FAQ</h1>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for help...">
+            </div>
+        </header>
+
+        <div class="quick-links">
+            <div class="quick-link" onclick="scrollToSection('getting-started')">
+                <i class="fas fa-play-circle"></i>
+                <span>Getting Started</span>
+            </div>
+            <div class="quick-link" onclick="scrollToSection('reporting')">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Reporting</span>
+            </div>
+            <div class="quick-link" onclick="scrollToSection('rewards')">
+                <i class="fas fa-gift"></i>
+                <span>Rewards</span>
+            </div>
+        </div>
+
+        <div class="categories">
+            <div class="category-pill active">All Topics</div>
+            <div class="category-pill">Account</div>
+            <div class="category-pill">Reports</div>
+            <div class="category-pill">Rewards</div>
+            <div class="category-pill">Technical</div>
+            <div class="category-pill">Privacy</div>
+        </div>
+
+        <div class="faq-section" id="getting-started">
+            <div class="section-title"><i class="fas fa-rocket"></i> Getting Started</div>
+
+            <div class="faq-item open">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">🏪</div>
+                    <div class="faq-text">How do I register my pharmacy?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    To register your pharmacy:<br><br>
+                    1. Download the PULSE DENGUE app<br>
+                    2. Tap "Register New Pharmacy"<br>
+                    3. Fill in your pharmacy details (name, address, zone)<br>
+                    4. Upload your SEDES license number<br>
+                    5. Accept the terms and submit<br><br>
+                    Your registration will be reviewed within 24-48 hours. You'll receive a confirmation email once approved.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">⏱️</div>
+                    <div class="faq-text">How long does each report take?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    Each daily report takes only <strong>2 minutes or less</strong>. We've designed the app to be quick and simple - just select your sales levels and tap submit. No typing required for most reports!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">📱</div>
+                    <div class="faq-text">What devices are supported?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    PULSE DENGUE works on any smartphone with:<br><br>
+                    • Android 6.0 or newer<br>
+                    • iOS 12.0 or newer<br>
+                    • Basic internet connection (WiFi or mobile data)<br><br>
+                    The app is designed to work on low-end devices and with slow internet connections.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="reporting">
+            <div class="section-title"><i class="fas fa-clipboard-list"></i> Daily Reporting</div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">📊</div>
+                    <div class="faq-text">What data do I need to report?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    Your daily report includes:<br><br>
+                    <strong>Sales Levels (compared to normal):</strong><br>
+                    • Fever medication (paracetamol, ibuprofen)<br>
+                    • Repellents & antimosquito products<br>
+                    • Oral rehydration solutions<br>
+                    • Mosquito coils/spray<br><br>
+                    <strong>Customer Symptoms (if asked about):</strong><br>
+                    • Fever inquiries<br>
+                    • Headache<br>
+                    • Body/joint pain<br>
+                    • Rash<br><br>
+                    You DON'T need exact numbers - just estimate if sales are Normal, +25%, +50%, or +100% above normal.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">🌐</div>
+                    <div class="faq-text">What if I don't have internet?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    No worries! PULSE DENGUE works <strong>offline</strong>:<br><br>
+                    1. Fill out your report as usual<br>
+                    2. The app saves it locally<br>
+                    3. When you connect to internet, it syncs automatically<br><br>
+                    You'll see a "Pending Sync" badge until the report uploads. Reports can be stored offline for up to 7 days.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">⏰</div>
+                    <div class="faq-text">What time should I submit reports?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    We recommend submitting between <strong>9:00 AM - 12:00 PM</strong> based on yesterday's sales. This gives you time to review your inventory and ensures data reaches health authorities early.<br><br>
+                    You can set a daily reminder in Settings to help you remember.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section" id="rewards">
+            <div class="section-title"><i class="fas fa-gift"></i> Rewards & Points</div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">🎮</div>
+                    <div class="faq-text">How do I earn points?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    You earn points for:<br><br>
+                    • <strong>Daily Report:</strong> 10 points<br>
+                    • <strong>Streak Bonus (7 days):</strong> +50 points<br>
+                    • <strong>Streak Bonus (30 days):</strong> +200 points<br>
+                    • <strong>Complete Profile:</strong> 25 points<br>
+                    • <strong>Refer Another Pharmacy:</strong> 100 points<br><br>
+                    Points can be redeemed for mobile data, pharmacy supplies discounts, and more!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="faq-icon">🔥</div>
+                    <div class="faq-text">How do streaks work?</div>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </div>
+                <div class="faq-answer">
+                    A streak counts consecutive days you've submitted reports:<br><br>
+                    • Submit daily to build your streak<br>
+                    • Miss one day and your streak resets to 0<br>
+                    • Weekends count! (dengue doesn't take days off)<br>
+                    • You get bonus points at 7-day milestones<br><br>
+                    The leaderboard shows top pharmacies by streak and total points.
+                </div>
+            </div>
+        </div>
+
+        <div class="tutorials-section">
+            <div class="section-title"><i class="fas fa-video"></i> Video Tutorials</div>
+
+            <div class="tutorial-card" onclick="playVideo('intro')">
+                <div class="tutorial-thumb"><i class="fas fa-play"></i></div>
+                <div class="tutorial-info">
+                    <div class="tutorial-title">Introduction to PULSE</div>
+                    <div class="tutorial-meta"><i class="fas fa-clock"></i> 3 min</div>
+                </div>
+            </div>
+
+            <div class="tutorial-card" onclick="playVideo('report')">
+                <div class="tutorial-thumb"><i class="fas fa-play"></i></div>
+                <div class="tutorial-info">
+                    <div class="tutorial-title">How to Submit a Report</div>
+                    <div class="tutorial-meta"><i class="fas fa-clock"></i> 2 min</div>
+                </div>
+            </div>
+
+            <div class="tutorial-card" onclick="playVideo('offline')">
+                <div class="tutorial-thumb"><i class="fas fa-play"></i></div>
+                <div class="tutorial-info">
+                    <div class="tutorial-title">Using Offline Mode</div>
+                    <div class="tutorial-meta"><i class="fas fa-clock"></i> 1 min</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-headset"></i></div>
+            <div class="contact-title">Still need help?</div>
+            <div class="contact-desc">Our support team is available Monday-Saturday, 8 AM - 6 PM</div>
+            <div class="contact-buttons">
+                <a href="https://wa.me/59176543210" class="contact-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="mailto:support@pulsedengue.org" class="contact-btn email">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function playVideo(id) {
+            alert('📹 Video tutorial would play here: ' + id);
+        }
+
+        document.querySelectorAll('.category-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

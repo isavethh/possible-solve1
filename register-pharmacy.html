@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PULSE DENGUE - Register Your Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #00D9FF; --secondary: #FF6B35; --success: #00E676; --warning: #FFD700; --danger: #FF4444; --purple: #9B59B6; --bg-dark: #0A0A0F; --bg-darker: #050508; --bg-card: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08); --text-primary: #FFFFFF; --text-secondary: rgba(255, 255, 255, 0.6); --text-muted: rgba(255, 255, 255, 0.4); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+
+        .mobile-container { max-width: 480px; margin: 0 auto; min-height: 100vh; padding-bottom: 100px; }
+
+        /* Header */
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%); padding: 20px; padding-top: 50px; text-align: center; }
+        .header-back { position: absolute; left: 20px; top: 50px; color: var(--bg-dark); font-size: 20px; text-decoration: none; }
+        .header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: var(--bg-dark); margin-bottom: 8px; }
+        .header p { font-size: 14px; color: rgba(0,0,0,0.6); }
+
+        /* Progress Steps */
+        .progress-bar { display: flex; justify-content: center; gap: 8px; padding: 20px; background: var(--bg-card); }
+        .progress-step { width: 60px; height: 6px; background: var(--border); border-radius: 3px; transition: all 0.3s; }
+        .progress-step.active { background: var(--primary); }
+        .progress-step.completed { background: var(--success); }
+
+        /* Form Container */
+        .form-container { padding: 24px; }
+        .step { display: none; animation: fadeIn 0.3s ease; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .step-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+        .step-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 500; }
+        .form-group label span.required { color: var(--danger); }
+        .form-input { width: 100%; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 15px; outline: none; transition: all 0.3s; }
+        .form-input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0,217,255,0.15); }
+        .form-input::placeholder { color: var(--text-muted); }
+        select.form-input { cursor: pointer; }
+        select.form-input option { background: var(--bg-dark); }
+        textarea.form-input { min-height: 100px; resize: vertical; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* Photo Upload */
+        .photo-upload { border: 2px dashed var(--border); border-radius: 16px; padding: 32px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .photo-upload:hover { border-color: var(--primary); background: rgba(0,217,255,0.05); }
+        .photo-upload i { font-size: 40px; color: var(--primary); margin-bottom: 12px; }
+        .photo-upload p { font-size: 14px; color: var(--text-secondary); }
+        .photo-upload span { font-size: 12px; color: var(--text-muted); }
+
+        /* Zone Selection */
+        .zone-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .zone-option { padding: 16px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .zone-option:hover { border-color: var(--primary); }
+        .zone-option.selected { border-color: var(--primary); background: rgba(0,217,255,0.1); }
+        .zone-option i { font-size: 24px; margin-bottom: 8px; display: block; }
+        .zone-option .zone-name { font-size: 14px; font-weight: 600; }
+        .zone-option .zone-desc { font-size: 11px; color: var(--text-muted); }
+
+        /* Checkbox */
+        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--bg-card); border-radius: 12px; margin-bottom: 12px; cursor: pointer; }
+        .checkbox-group input { display: none; }
+        .checkbox-box { width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; }
+        .checkbox-group input:checked + .checkbox-box { background: var(--primary); border-color: var(--primary); }
+        .checkbox-group input:checked + .checkbox-box i { display: block; }
+        .checkbox-box i { display: none; color: var(--bg-dark); font-size: 14px; }
+        .checkbox-label { font-size: 13px; color: var(--text-secondary); }
+        .checkbox-label a { color: var(--primary); }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: 12px; margin-top: 32px; }
+        .btn { flex: 1; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); }
+        .btn-secondary:hover { border-color: var(--primary); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--success)); color: var(--bg-dark); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,217,255,0.3); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Success Screen */
+        .success-screen { text-align: center; padding: 60px 24px; }
+        .success-icon { width: 100px; height: 100px; background: linear-gradient(135deg, var(--success), var(--primary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 48px; color: var(--bg-dark); animation: successPop 0.5s ease; }
+        @keyframes successPop { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .success-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 12px; }
+        .success-message { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; }
+        .success-steps { text-align: left; background: var(--bg-card); border-radius: 16px; padding: 20px; margin-bottom: 32px; }
+        .success-step { display: flex; gap: 12px; margin-bottom: 16px; }
+        .success-step:last-child { margin-bottom: 0; }
+        .success-step-num { width: 28px; height: 28px; background: rgba(0,217,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--primary); flex-shrink: 0; }
+        .success-step-text { font-size: 13px; color: var(--text-secondary); }
+        .success-step-text strong { color: var(--text-primary); }
+
+        /* Info Box */
+        .info-box { background: rgba(0,217,255,0.1); border: 1px solid rgba(0,217,255,0.2); border-radius: 12px; padding: 16px; display: flex; gap: 12px; margin-bottom: 20px; }
+        .info-box i { color: var(--primary); font-size: 20px; flex-shrink: 0; }
+        .info-box p { font-size: 13px; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header class="header" style="position: relative;">
+            <a href="pharmacy-app.html" class="header-back"><i class="fas fa-arrow-left"></i></a>
+            <h1>🏪 Register Your Pharmacy</h1>
+            <p>Join the PULSE network in 3 easy steps</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-step active" id="prog1"></div>
+            <div class="progress-step" id="prog2"></div>
+            <div class="progress-step" id="prog3"></div>
+        </div>
+
+        <div class="form-container">
+            <!-- Step 1: Basic Info -->
+            <div class="step active" id="step1">
+                <h2 class="step-title">Basic Information</h2>
+                <p class="step-desc">Tell us about your pharmacy</p>
+
+                <div class="form-group">
+                    <label>Pharmacy Name <span class="required">*</span></label>
+                    <input type="text" class="form-input" placeholder="e.g., Farmacia San Miguel" id="pharmacyName">
+                </div>
+
+                <div class="form-group">
+                    <label>Owner / Manager Name <span class="required">*</span></label>
+                    <input type="text" class="form-input" placeholder="Your full name" id="ownerName">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone <span class="required">*</span></label>
+                        <input type="tel" class="form-input" placeholder="+591 7XXXXXXX" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" class="form-input" placeholder="+591 7XXXXXXX" id="whatsapp">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email <span class="required">*</span></label>
+                    <input type="email" class="form-input" placeholder="pharmacy@email.com" id="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Create Password <span class="required">*</span></label>
+                    <input type="password" class="form-input" placeholder="Minimum 8 characters" id="password">
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 2: Location -->
+            <div class="step" id="step2">
+                <h2 class="step-title">Location & Zone</h2>
+                <p class="step-desc">Help us map your pharmacy</p>
+
+                <div class="form-group">
+                    <label>Street Address <span class="required">*</span></label>
+                    <input type="text" class="form-input" placeholder="Av. Monseñor Rivero #123" id="address">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Neighborhood</label>
+                        <input type="text" class="form-input" placeholder="e.g., Equipetrol" id="neighborhood">
+                    </div>
+                    <div class="form-group">
+                        <label>Reference</label>
+                        <input type="text" class="form-input" placeholder="Near..." id="reference">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Your Zone <span class="required">*</span></label>
+                    <div class="zone-grid">
+                        <div class="zone-option" onclick="selectZone(this, 'north')">
+                            <i class="fas fa-compass" style="color: var(--danger);"></i>
+                            <div class="zone-name">North Zone</div>
+                            <div class="zone-desc">Equipetrol, Urbarí</div>
+                        </div>
+                        <div class="zone-option" onclick="selectZone(this, 'south')">
+                            <i class="fas fa-compass" style="color: var(--success);"></i>
+                            <div class="zone-name">South Zone</div>
+                            <div class="zone-desc">Plan 3000, Pampa</div>
+                        </div>
+                        <div class="zone-option" onclick="selectZone(this, 'east')">
+                            <i class="fas fa-compass" style="color: var(--warning);"></i>
+                            <div class="zone-name">East Zone</div>
+                            <div class="zone-desc">UV, Villa 1ro Mayo</div>
+                        </div>
+                        <div class="zone-option" onclick="selectZone(this, 'center')">
+                            <i class="fas fa-compass" style="color: var(--primary);"></i>
+                            <div class="zone-name">Center</div>
+                            <div class="zone-desc">Casco Viejo, Centro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Your zone helps us aggregate data and send you relevant alerts for your area.</p>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 3: Verification -->
+            <div class="step" id="step3">
+                <h2 class="step-title">Verification & Agreement</h2>
+                <p class="step-desc">Final step to join the network</p>
+
+                <div class="form-group">
+                    <label>Pharmacy License Number</label>
+                    <input type="text" class="form-input" placeholder="SEDES license number" id="license">
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Pharmacy Photo (optional)</label>
+                    <div class="photo-upload" onclick="uploadPhoto()">
+                        <i class="fas fa-camera"></i>
+                        <p>Tap to upload storefront photo</p>
+                        <span>Helps verify your location</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Operating Hours</label>
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Opens: 8:00 AM" id="opens">
+                        <input type="text" class="form-input" placeholder="Closes: 10:00 PM" id="closes">
+                    </div>
+                </div>
+
+                <label class="checkbox-group">
+                    <input type="checkbox" id="terms">
+                    <div class="checkbox-box"><i class="fas fa-check"></i></div>
+                    <div class="checkbox-label">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>. I understand my reports will be anonymized and aggregated.</div>
+                </label>
+
+                <label class="checkbox-group">
+                    <input type="checkbox" id="dataShare">
+                    <div class="checkbox-box"><i class="fas fa-check"></i></div>
+                    <div class="checkbox-label">I agree to share daily sales data to help predict and prevent dengue outbreaks in my community.</div>
+                </label>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" onclick="submitRegistration()" id="submitBtn">Submit Registration <i class="fas fa-check"></i></button>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="step" id="stepSuccess">
+                <div class="success-screen">
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
+                    <h2 class="success-title">Registration Submitted! 🎉</h2>
+                    <p class="success-message">Thank you for joining the PULSE network. Your application is being reviewed by our team.</p>
+                    
+                    <div class="success-steps">
+                        <div class="success-step">
+                            <div class="success-step-num">1</div>
+                            <div class="success-step-text"><strong>Review Period:</strong> We'll verify your information within 24-48 hours.</div>
+                        </div>
+                        <div class="success-step">
+                            <div class="success-step-num">2</div>
+                            <div class="success-step-text"><strong>Approval Email:</strong> You'll receive a confirmation email with login instructions.</div>
+                        </div>
+                        <div class="success-step">
+                            <div class="success-step-num">3</div>
+                            <div class="success-step-text"><strong>Training:</strong> Complete our 15-minute onboarding to start reporting.</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="window.location.href='pharmacy-app.html'" style="width: 100%;">
+                        <i class="fas fa-home"></i> Return to App
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedZone = null;
+
+        function nextStep(step) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + step).classList.add('active');
+            document.getElementById('prog' + currentStep).classList.remove('active');
+            document.getElementById('prog' + currentStep).classList.add('completed');
+            document.getElementById('prog' + step).classList.add('active');
+            currentStep = step;
+        }
+
+        function prevStep(step) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + step).classList.add('active');
+            document.getElementById('prog' + currentStep).classList.remove('active');
+            document.getElementById('prog' + step).classList.remove('completed');
+            document.getElementById('prog' + step).classList.add('active');
+            currentStep = step;
+        }
+
+        function selectZone(element, zone) {
+            document.querySelectorAll('.zone-option').forEach(z => z.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedZone = zone;
+        }
+
+        function uploadPhoto() {
+            alert('📷 Camera/Gallery would open here to upload pharmacy photo');
+        }
+
+        function submitRegistration() {
+            const terms = document.getElementById('terms').checked;
+            const dataShare = document.getElementById('dataShare').checked;
+            
+            if (!terms || !dataShare) {
+                alert('Please accept both agreements to continue');
+                return;
+            }
+
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('stepSuccess').classList.add('active');
+            document.getElementById('prog3').classList.remove('active');
+            document.getElementById('prog3').classList.add('completed');
+        }
+    </script>
+</body>
+</html>
