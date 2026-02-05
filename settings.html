@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --purple: #9B59B6;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+        
+        .header { background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .back-btn { width: 44px; height: 44px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; }
+        .back-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; }
+        .btn { padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .btn-primary { background: var(--primary); color: var(--bg-dark); }
+        .btn:hover { transform: translateY(-2px); }
+
+        .main { padding: 32px; max-width: 900px; margin: 0 auto; }
+
+        /* Settings Sections */
+        .settings-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 24px; overflow: hidden; }
+        .section-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .section-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .section-icon.blue { background: rgba(0,217,255,0.15); color: var(--primary); }
+        .section-icon.green { background: rgba(0,230,118,0.15); color: var(--success); }
+        .section-icon.purple { background: rgba(155,89,182,0.15); color: var(--purple); }
+        .section-icon.orange { background: rgba(255,107,53,0.15); color: var(--secondary); }
+        .section-icon.red { background: rgba(255,68,68,0.15); color: var(--danger); }
+        .section-title { font-size: 16px; font-weight: 600; }
+        .section-desc { font-size: 12px; color: var(--text-muted); }
+
+        .settings-list { padding: 8px 0; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--border); transition: background 0.2s; }
+        .setting-item:last-child { border-bottom: none; }
+        .setting-item:hover { background: rgba(255,255,255,0.02); }
+        .setting-info { flex: 1; }
+        .setting-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+        .setting-description { font-size: 12px; color: var(--text-muted); }
+        
+        /* Toggle Switch */
+        .toggle { position: relative; width: 52px; height: 28px; cursor: pointer; }
+        .toggle input { display: none; }
+        .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 14px; transition: all 0.3s; }
+        .toggle-slider::before { content: ''; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: all 0.3s; }
+        .toggle input:checked + .toggle-slider { background: var(--primary); }
+        .toggle input:checked + .toggle-slider::before { transform: translateX(24px); }
+
+        /* Select */
+        .setting-select { background: var(--bg-darker); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; color: var(--text-primary); font-size: 13px; cursor: pointer; min-width: 150px; }
+        .setting-select:focus { outline: none; border-color: var(--primary); }
+
+        /* Input */
+        .setting-input { background: var(--bg-darker); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; color: var(--text-primary); font-size: 13px; width: 100px; text-align: right; }
+        .setting-input:focus { outline: none; border-color: var(--primary); }
+
+        /* Buttons */
+        .setting-btn { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .setting-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .setting-btn.danger { border-color: rgba(255,68,68,0.3); color: var(--danger); }
+        .setting-btn.danger:hover { background: rgba(255,68,68,0.1); }
+
+        /* User Profile */
+        .profile-section { display: flex; gap: 20px; padding: 24px; }
+        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; }
+        .profile-info { flex: 1; }
+        .profile-name { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .profile-role { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+        .profile-actions { display: flex; gap: 8px; }
+
+        /* System Status */
+        .status-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 24px; }
+        .status-item { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 16px; }
+        .status-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+        .status-value { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .status-dot.online { background: var(--success); }
+        .status-dot.warning { background: var(--warning); }
+        .status-dot.offline { background: var(--danger); }
+
+        /* API Keys */
+        .api-key { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: rgba(0,0,0,0.2); margin: 0 24px 24px; border-radius: 10px; }
+        .api-key-value { flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted); }
+        .api-key-btn { padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; cursor: pointer; color: var(--text-secondary); }
+        .api-key-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .status-grid { grid-template-columns: 1fr; }
+            .profile-section { flex-direction: column; align-items: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="page-title">⚙️ Settings</div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+    </header>
+
+    <main class="main">
+        <!-- Profile Section -->
+        <div class="settings-section">
+            <div class="profile-section">
+                <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                <div class="profile-info">
+                    <div class="profile-name">Dr. María González</div>
+                    <div class="profile-role">Health Authority Administrator • Santa Cruz Region</div>
+                    <div class="profile-actions">
+                        <button class="setting-btn"><i class="fas fa-edit"></i> Edit Profile</button>
+                        <button class="setting-btn"><i class="fas fa-key"></i> Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon blue"><i class="fas fa-bell"></i></div>
+                <div>
+                    <div class="section-title">Notifications</div>
+                    <div class="section-desc">Configure how you receive alerts and updates</div>
+                </div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Critical Alerts</div>
+                        <div class="setting-description">Receive immediate notifications for critical outbreak risks</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Daily Summary</div>
+                        <div class="setting-description">Email digest of daily surveillance activity</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Pharmacy Compliance Alerts</div>
+                        <div class="setting-description">Notify when pharmacies miss reporting deadlines</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Push Notifications</div>
+                        <div class="setting-description">Enable browser push notifications</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon purple"><i class="fas fa-brain"></i></div>
+                <div>
+                    <div class="section-title">AI Model Settings</div>
+                    <div class="section-desc">Configure prediction thresholds and sensitivity</div>
+                </div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Critical Alert Threshold</div>
+                        <div class="setting-description">Risk percentage to trigger critical alerts</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="number" class="setting-input" value="75" min="50" max="95">
+                        <span style="color: var(--text-muted);">%</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">High Alert Threshold</div>
+                        <div class="setting-description">Risk percentage to trigger high priority alerts</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="number" class="setting-input" value="50" min="30" max="74">
+                        <span style="color: var(--text-muted);">%</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Prediction Confidence Minimum</div>
+                        <div class="setting-description">Only show predictions above this confidence level</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="number" class="setting-input" value="70" min="50" max="95">
+                        <span style="color: var(--text-muted);">%</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Auto-generate Recommendations</div>
+                        <div class="setting-description">Let AI automatically create action recommendations</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon green"><i class="fas fa-desktop"></i></div>
+                <div>
+                    <div class="section-title">Display & Language</div>
+                    <div class="section-desc">Customize your dashboard appearance</div>
+                </div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Language</div>
+                        <div class="setting-description">Interface language</div>
+                    </div>
+                    <select class="setting-select">
+                        <option selected>English</option>
+                        <option>Español</option>
+                        <option>Português</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Date Format</div>
+                        <div class="setting-description">How dates are displayed</div>
+                    </div>
+                    <select class="setting-select">
+                        <option>MM/DD/YYYY</option>
+                        <option selected>DD/MM/YYYY</option>
+                        <option>YYYY-MM-DD</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Temperature Unit</div>
+                        <div class="setting-description">Weather display preference</div>
+                    </div>
+                    <select class="setting-select">
+                        <option selected>Celsius (°C)</option>
+                        <option>Fahrenheit (°F)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Dark Mode</div>
+                        <div class="setting-description">Use dark theme (recommended)</div>
+                    </div>
+                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon orange"><i class="fas fa-server"></i></div>
+                <div>
+                    <div class="section-title">System Status</div>
+                    <div class="section-desc">Current system health and connectivity</div>
+                </div>
+            </div>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-label">API Server</div>
+                    <div class="status-value"><span class="status-dot online"></span> Online</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">AI Model</div>
+                    <div class="status-value"><span class="status-dot online"></span> Active (v2.3.1)</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Database</div>
+                    <div class="status-value"><span class="status-dot online"></span> Connected</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Weather API</div>
+                    <div class="status-value"><span class="status-dot online"></span> Connected</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Last Sync</div>
+                    <div class="status-value">2 minutes ago</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Data Version</div>
+                    <div class="status-value">Feb 5, 2026 09:15</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Access -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon blue"><i class="fas fa-key"></i></div>
+                <div>
+                    <div class="section-title">API Access</div>
+                    <div class="section-desc">Manage API keys for integrations</div>
+                </div>
+            </div>
+            <div class="api-key">
+                <div class="api-key-value">pk_live_••••••••••••••••••••••••4f2a</div>
+                <button class="api-key-btn"><i class="fas fa-copy"></i> Copy</button>
+                <button class="api-key-btn"><i class="fas fa-sync"></i> Regenerate</button>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                <div>
+                    <div class="section-title">Danger Zone</div>
+                    <div class="section-desc">Irreversible actions</div>
+                </div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Export All Data</div>
+                        <div class="setting-description">Download complete system data backup</div>
+                    </div>
+                    <button class="setting-btn"><i class="fas fa-download"></i> Export</button>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Reset Dashboard</div>
+                        <div class="setting-description">Reset all widgets and layouts to default</div>
+                    </div>
+                    <button class="setting-btn danger"><i class="fas fa-undo"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function saveSettings() {
+            alert('✅ Settings saved successfully!\n\nYour preferences have been updated.');
+        }
+    </script>
+</body>
+</html>

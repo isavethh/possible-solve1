@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - Fumigation Coordination</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --purple: #9B59B6;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+        
+        .header { background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .back-btn { width: 44px; height: 44px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; }
+        .back-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; }
+        .btn { padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .btn-primary { background: var(--primary); color: var(--bg-dark); }
+        .btn:hover { transform: translateY(-2px); }
+
+        .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+        /* Stats */
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+        .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+        .stat-icon.blue { background: rgba(0,217,255,0.15); color: var(--primary); }
+        .stat-icon.green { background: rgba(0,230,118,0.15); color: var(--success); }
+        .stat-icon.orange { background: rgba(255,107,53,0.15); color: var(--secondary); }
+        .stat-icon.purple { background: rgba(155,89,182,0.15); color: var(--purple); }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { font-size: 13px; color: var(--text-secondary); }
+
+        /* Calendar & Schedule */
+        .content-grid { display: grid; grid-template-columns: 1fr 400px; gap: 24px; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--primary); }
+
+        /* Schedule List */
+        .schedule-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+        .schedule-item { display: flex; gap: 16px; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 12px; position: relative; }
+        .schedule-item:last-child { margin-bottom: 0; }
+        .schedule-item.urgent { border-left: 4px solid var(--danger); }
+        .schedule-item.today { border-left: 4px solid var(--primary); }
+        .schedule-item.completed { border-left: 4px solid var(--success); opacity: 0.7; }
+        .schedule-date { text-align: center; min-width: 60px; }
+        .schedule-day { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--primary); }
+        .schedule-month { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+        .schedule-content { flex: 1; }
+        .schedule-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .schedule-title .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+        .schedule-title .badge.urgent { background: rgba(255,68,68,0.2); color: var(--danger); }
+        .schedule-title .badge.scheduled { background: rgba(0,217,255,0.2); color: var(--primary); }
+        .schedule-title .badge.done { background: rgba(0,230,118,0.2); color: var(--success); }
+        .schedule-zone { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+        .schedule-meta { display: flex; gap: 16px; font-size: 11px; color: var(--text-muted); }
+        .schedule-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .schedule-btn { padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+        .schedule-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Teams */
+        .teams-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+        .team-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 10px; }
+        .team-item:last-child { margin-bottom: 0; }
+        .team-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+        .team-info { flex: 1; }
+        .team-name { font-size: 14px; font-weight: 500; }
+        .team-status { font-size: 11px; color: var(--text-muted); }
+        .team-badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+        .team-badge.available { background: rgba(0,230,118,0.15); color: var(--success); }
+        .team-badge.busy { background: rgba(255,68,68,0.15); color: var(--danger); }
+        .team-badge.transit { background: rgba(255,215,0,0.15); color: var(--warning); }
+
+        /* Equipment */
+        .equipment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+        .equipment-item { background: rgba(0,0,0,0.2); border-radius: 10px; padding: 16px; text-align: center; }
+        .equipment-icon { font-size: 24px; margin-bottom: 8px; }
+        .equipment-name { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .equipment-value { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .equipment-value.low { color: var(--danger); }
+        .equipment-value.ok { color: var(--success); }
+
+        /* Quick Actions */
+        .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .quick-action { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .quick-action:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .quick-action-icon { width: 48px; height: 48px; margin: 0 auto 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: rgba(0,217,255,0.15); color: var(--primary); }
+        .quick-action-title { font-size: 13px; font-weight: 500; }
+
+        /* Map Preview */
+        .map-preview { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-top: 24px; }
+        .map-placeholder { height: 200px; background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,230,118,0.1)); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .map-placeholder i { font-size: 48px; color: var(--primary); margin-bottom: 12px; }
+        .map-placeholder span { font-size: 13px; color: var(--text-secondary); }
+
+        @media (max-width: 1024px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="page-title">🚿 Fumigation Coordination</div>
+        </div>
+        <button class="btn btn-primary" onclick="scheduleNew()"><i class="fas fa-plus"></i> Schedule Fumigation</button>
+    </header>
+
+    <main class="main">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Scheduled This Week</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">Completed This Month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-map"></i></div>
+                <div class="stat-value">45 km²</div>
+                <div class="stat-label">Area Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fas fa-users"></i></div>
+                <div class="stat-value">4</div>
+                <div class="stat-label">Active Teams</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <div class="quick-action" onclick="scheduleNew()">
+                <div class="quick-action-icon"><i class="fas fa-plus-circle"></i></div>
+                <div class="quick-action-title">New Schedule</div>
+            </div>
+            <div class="quick-action" onclick="viewMap()">
+                <div class="quick-action-icon"><i class="fas fa-map-marked-alt"></i></div>
+                <div class="quick-action-title">Coverage Map</div>
+            </div>
+            <div class="quick-action" onclick="manageTeams()">
+                <div class="quick-action-icon"><i class="fas fa-users-cog"></i></div>
+                <div class="quick-action-title">Manage Teams</div>
+            </div>
+            <div class="quick-action" onclick="viewReports()">
+                <div class="quick-action-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="quick-action-title">View Reports</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div>
+                <div class="section-title"><i class="fas fa-calendar-alt"></i> Upcoming Schedule</div>
+                <div class="schedule-card">
+                    <div class="schedule-item urgent">
+                        <div class="schedule-date">
+                            <div class="schedule-day">06</div>
+                            <div class="schedule-month">Feb</div>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">
+                                Emergency Fumigation
+                                <span class="badge urgent">Urgent</span>
+                            </div>
+                            <div class="schedule-zone"><i class="fas fa-map-marker-alt"></i> North Zone - Equipetrol, Urbarí</div>
+                            <div class="schedule-meta">
+                                <span><i class="fas fa-clock"></i> 6:00 AM - 12:00 PM</span>
+                                <span><i class="fas fa-users"></i> Team Alpha</span>
+                                <span><i class="fas fa-map"></i> 15 km²</span>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="schedule-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="schedule-btn"><i class="fas fa-bell"></i> Notify</button>
+                                <button class="schedule-btn"><i class="fas fa-eye"></i> Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item today">
+                        <div class="schedule-date">
+                            <div class="schedule-day">08</div>
+                            <div class="schedule-month">Feb</div>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">
+                                Preventive Fumigation
+                                <span class="badge scheduled">Scheduled</span>
+                            </div>
+                            <div class="schedule-zone"><i class="fas fa-map-marker-alt"></i> East Zone - Plan 3000</div>
+                            <div class="schedule-meta">
+                                <span><i class="fas fa-clock"></i> 7:00 AM - 11:00 AM</span>
+                                <span><i class="fas fa-users"></i> Team Beta</span>
+                                <span><i class="fas fa-map"></i> 8 km²</span>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="schedule-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="schedule-btn"><i class="fas fa-bell"></i> Notify</button>
+                                <button class="schedule-btn"><i class="fas fa-eye"></i> Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item">
+                        <div class="schedule-date">
+                            <div class="schedule-day">12</div>
+                            <div class="schedule-month">Feb</div>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">
+                                Routine Maintenance
+                                <span class="badge scheduled">Scheduled</span>
+                            </div>
+                            <div class="schedule-zone"><i class="fas fa-map-marker-alt"></i> Center Zone - Casco Viejo</div>
+                            <div class="schedule-meta">
+                                <span><i class="fas fa-clock"></i> 6:30 AM - 10:00 AM</span>
+                                <span><i class="fas fa-users"></i> Team Gamma</span>
+                                <span><i class="fas fa-map"></i> 5 km²</span>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="schedule-btn"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="schedule-btn"><i class="fas fa-bell"></i> Notify</button>
+                                <button class="schedule-btn"><i class="fas fa-eye"></i> Details</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-item completed">
+                        <div class="schedule-date">
+                            <div class="schedule-day">03</div>
+                            <div class="schedule-month">Feb</div>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-title">
+                                Emergency Response
+                                <span class="badge done">Completed</span>
+                            </div>
+                            <div class="schedule-zone"><i class="fas fa-map-marker-alt"></i> North Zone - Sector 4</div>
+                            <div class="schedule-meta">
+                                <span><i class="fas fa-clock"></i> Completed in 4h</span>
+                                <span><i class="fas fa-users"></i> Team Alpha</span>
+                                <span><i class="fas fa-map"></i> 10 km²</span>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="schedule-btn"><i class="fas fa-file-alt"></i> View Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-preview">
+                    <div class="section-title"><i class="fas fa-map"></i> Coverage Map</div>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Click to view interactive fumigation coverage map</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-title"><i class="fas fa-users"></i> Fumigation Teams</div>
+                <div class="teams-card">
+                    <div class="team-item">
+                        <div class="team-avatar">A</div>
+                        <div class="team-info">
+                            <div class="team-name">Team Alpha</div>
+                            <div class="team-status">North Zone assignment</div>
+                        </div>
+                        <span class="team-badge busy">On Mission</span>
+                    </div>
+                    <div class="team-item">
+                        <div class="team-avatar">B</div>
+                        <div class="team-info">
+                            <div class="team-name">Team Beta</div>
+                            <div class="team-status">Ready for deployment</div>
+                        </div>
+                        <span class="team-badge available">Available</span>
+                    </div>
+                    <div class="team-item">
+                        <div class="team-avatar">G</div>
+                        <div class="team-info">
+                            <div class="team-name">Team Gamma</div>
+                            <div class="team-status">Equipment maintenance</div>
+                        </div>
+                        <span class="team-badge transit">Standby</span>
+                    </div>
+                    <div class="team-item">
+                        <div class="team-avatar">D</div>
+                        <div class="team-info">
+                            <div class="team-name">Team Delta</div>
+                            <div class="team-status">Ready for deployment</div>
+                        </div>
+                        <span class="team-badge available">Available</span>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 24px;"><i class="fas fa-boxes"></i> Equipment Status</div>
+                    <div class="equipment-grid">
+                        <div class="equipment-item">
+                            <div class="equipment-icon">🚛</div>
+                            <div class="equipment-name">Vehicles</div>
+                            <div class="equipment-value ok">4/4</div>
+                        </div>
+                        <div class="equipment-item">
+                            <div class="equipment-icon">🧪</div>
+                            <div class="equipment-name">Insecticide (L)</div>
+                            <div class="equipment-value ok">850</div>
+                        </div>
+                        <div class="equipment-item">
+                            <div class="equipment-icon">⛽</div>
+                            <div class="equipment-name">Fuel (L)</div>
+                            <div class="equipment-value low">120</div>
+                        </div>
+                        <div class="equipment-item">
+                            <div class="equipment-icon">🎭</div>
+                            <div class="equipment-name">Masks</div>
+                            <div class="equipment-value ok">48</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function scheduleNew() {
+            alert('📅 Schedule New Fumigation\n\nThis would open a form to:\n• Select zone/area\n• Choose date and time\n• Assign team\n• Set priority level\n• Send notifications to residents');
+        }
+
+        function viewMap() {
+            alert('🗺️ Opening coverage map...\n\nThis would show an interactive map with:\n• Completed fumigation areas (green)\n• Scheduled areas (blue)\n• Priority areas (red)');
+        }
+
+        function manageTeams() {
+            alert('👥 Team Management\n\nThis would allow you to:\n• View team members\n• Assign/reassign teams\n• Track team locations\n• Manage schedules');
+        }
+
+        function viewReports() {
+            window.location.href = 'reports.html';
+        }
+    </script>
+</body>
+</html>

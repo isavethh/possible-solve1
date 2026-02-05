@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE DENGUE - Report Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #FF6B35;
+            --success: #00E676;
+            --warning: #FFD700;
+            --danger: #FF4444;
+            --purple: #9B59B6;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-darker); min-height: 100vh; color: var(--text-primary); }
+        
+        .header { background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .back-btn { width: 44px; height: 44px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.2s; }
+        .back-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; }
+
+        .main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+        /* Report Types Grid */
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--primary); }
+
+        .report-types { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .report-type-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+        .report-type-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+        .report-type-card.selected { border-color: var(--primary); background: rgba(0,217,255,0.1); }
+        .report-type-card.selected::before { content: '✓'; position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-dark); font-weight: 700; }
+        .report-type-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; }
+        .report-type-icon.blue { background: rgba(0,217,255,0.15); color: var(--primary); }
+        .report-type-icon.green { background: rgba(0,230,118,0.15); color: var(--success); }
+        .report-type-icon.orange { background: rgba(255,107,53,0.15); color: var(--secondary); }
+        .report-type-icon.purple { background: rgba(155,89,182,0.15); color: var(--purple); }
+        .report-type-icon.yellow { background: rgba(255,215,0,0.15); color: var(--warning); }
+        .report-type-icon.red { background: rgba(255,68,68,0.15); color: var(--danger); }
+        .report-type-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .report-type-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+        .report-type-format { margin-top: 12px; display: flex; gap: 8px; }
+        .format-tag { padding: 4px 10px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 11px; color: var(--text-muted); }
+
+        /* Report Configuration */
+        .report-config { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 40px; }
+        .config-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .form-group { margin-bottom: 0; }
+        .form-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; display: block; color: var(--text-secondary); }
+        .form-input, .form-select { width: 100%; background: var(--bg-darker); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--text-primary); font-size: 14px; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary); }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--bg-darker); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .checkbox-item:hover { border-color: var(--primary); }
+        .checkbox-item.checked { background: rgba(0,217,255,0.1); border-color: var(--primary); }
+        .checkbox-item input { display: none; }
+        .checkbox-item span { font-size: 13px; }
+
+        /* Generate Button */
+        .generate-section { text-align: center; margin-bottom: 40px; }
+        .btn-generate { padding: 16px 48px; background: linear-gradient(135deg, var(--primary), var(--success)); border: none; border-radius: 12px; font-size: 16px; font-weight: 600; color: var(--bg-dark); cursor: pointer; transition: all 0.3s; }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,217,255,0.3); }
+        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Recent Reports */
+        .recent-reports { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .recent-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .recent-title { font-size: 16px; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); background: rgba(0,0,0,0.2); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        .report-name { display: flex; align-items: center; gap: 12px; }
+        .report-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .report-icon.pdf { background: rgba(255,68,68,0.15); color: var(--danger); }
+        .report-icon.xlsx { background: rgba(0,230,118,0.15); color: var(--success); }
+        .report-icon.pptx { background: rgba(255,107,53,0.15); color: var(--secondary); }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+        .status-badge.ready { background: rgba(0,230,118,0.15); color: var(--success); }
+        .status-badge.generating { background: rgba(255,215,0,0.15); color: var(--warning); }
+        .action-btn { padding: 8px 16px; background: rgba(0,217,255,0.1); border: 1px solid var(--primary); border-radius: 8px; color: var(--primary); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .action-btn:hover { background: var(--primary); color: var(--bg-dark); }
+
+        @media (max-width: 1024px) {
+            .config-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .config-grid { grid-template-columns: 1fr; }
+            .report-types { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="page-title">📋 Report Generator</div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="section-title"><i class="fas fa-file-alt"></i> Select Report Type</div>
+        <div class="report-types">
+            <div class="report-type-card selected" onclick="selectReportType(this)">
+                <div class="report-type-icon blue"><i class="fas fa-chart-pie"></i></div>
+                <div class="report-type-title">Executive Summary</div>
+                <div class="report-type-desc">High-level overview of dengue surveillance activities, key metrics, and recommendations for stakeholders.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">PDF</span>
+                    <span class="format-tag">12-15 pages</span>
+                </div>
+            </div>
+            <div class="report-type-card" onclick="selectReportType(this)">
+                <div class="report-type-icon green"><i class="fas fa-table"></i></div>
+                <div class="report-type-title">Detailed Analytics</div>
+                <div class="report-type-desc">Complete data export with all pharmacy reports, sales trends, and zone-by-zone analysis.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">XLSX</span>
+                    <span class="format-tag">Multiple sheets</span>
+                </div>
+            </div>
+            <div class="report-type-card" onclick="selectReportType(this)">
+                <div class="report-type-icon orange"><i class="fas fa-presentation"></i></div>
+                <div class="report-type-title">Presentation Deck</div>
+                <div class="report-type-desc">Ready-to-present slides with charts, maps, and key findings for meetings and briefings.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">PPTX</span>
+                    <span class="format-tag">20-25 slides</span>
+                </div>
+            </div>
+            <div class="report-type-card" onclick="selectReportType(this)">
+                <div class="report-type-icon purple"><i class="fas fa-calculator"></i></div>
+                <div class="report-type-title">ROI & Impact Report</div>
+                <div class="report-type-desc">Financial analysis showing cost savings, cases prevented, and return on investment metrics.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">PDF</span>
+                    <span class="format-tag">8-10 pages</span>
+                </div>
+            </div>
+            <div class="report-type-card" onclick="selectReportType(this)">
+                <div class="report-type-icon yellow"><i class="fas fa-map"></i></div>
+                <div class="report-type-title">Geographic Analysis</div>
+                <div class="report-type-desc">Zone-focused report with risk maps, pharmacy coverage, and geographic distribution analysis.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">PDF</span>
+                    <span class="format-tag">Maps included</span>
+                </div>
+            </div>
+            <div class="report-type-card" onclick="selectReportType(this)">
+                <div class="report-type-icon red"><i class="fas fa-bell"></i></div>
+                <div class="report-type-title">Incident Report</div>
+                <div class="report-type-desc">Detailed documentation of specific outbreak events, response actions, and outcomes.</div>
+                <div class="report-type-format">
+                    <span class="format-tag">PDF</span>
+                    <span class="format-tag">Event-specific</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-cog"></i> Configure Report</div>
+        <div class="report-config">
+            <div class="config-grid">
+                <div class="form-group">
+                    <label class="form-label">Date Range</label>
+                    <select class="form-select">
+                        <option>Last 7 days</option>
+                        <option selected>Last 30 days</option>
+                        <option>Last 90 days</option>
+                        <option>Year to date</option>
+                        <option>Custom range...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Zone Filter</label>
+                    <select class="form-select">
+                        <option selected>All Zones</option>
+                        <option>North Zone</option>
+                        <option>East Zone</option>
+                        <option>Center Zone</option>
+                        <option>South Zone</option>
+                        <option>West Zone</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select class="form-select">
+                        <option selected>English</option>
+                        <option>Spanish</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 24px;">
+                <label class="form-label">Include Sections</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item checked"><input type="checkbox" checked><span>Executive Summary</span></label>
+                    <label class="checkbox-item checked"><input type="checkbox" checked><span>Risk Analysis</span></label>
+                    <label class="checkbox-item checked"><input type="checkbox" checked><span>Pharmacy Data</span></label>
+                    <label class="checkbox-item"><input type="checkbox"><span>Weather Correlation</span></label>
+                    <label class="checkbox-item checked"><input type="checkbox" checked><span>AI Predictions</span></label>
+                    <label class="checkbox-item"><input type="checkbox"><span>Response Timeline</span></label>
+                    <label class="checkbox-item checked"><input type="checkbox" checked><span>Recommendations</span></label>
+                    <label class="checkbox-item"><input type="checkbox"><span>Appendix Data</span></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="generate-section">
+            <button class="btn-generate" onclick="generateReport()">
+                <i class="fas fa-magic"></i> Generate Report
+            </button>
+        </div>
+
+        <div class="section-title"><i class="fas fa-history"></i> Recent Reports</div>
+        <div class="recent-reports">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Report Name</th>
+                        <th>Type</th>
+                        <th>Date Range</th>
+                        <th>Generated</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="report-name">
+                                <div class="report-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                                <span>Executive_Summary_Feb2026.pdf</span>
+                            </div>
+                        </td>
+                        <td>Executive Summary</td>
+                        <td>Jan 1 - Feb 4, 2026</td>
+                        <td>2 hours ago</td>
+                        <td><span class="status-badge ready">Ready</span></td>
+                        <td><button class="action-btn"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="report-name">
+                                <div class="report-icon xlsx"><i class="fas fa-file-excel"></i></div>
+                                <span>Detailed_Analytics_Jan2026.xlsx</span>
+                            </div>
+                        </td>
+                        <td>Detailed Analytics</td>
+                        <td>Jan 1 - Jan 31, 2026</td>
+                        <td>Yesterday</td>
+                        <td><span class="status-badge ready">Ready</span></td>
+                        <td><button class="action-btn"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="report-name">
+                                <div class="report-icon pptx"><i class="fas fa-file-powerpoint"></i></div>
+                                <span>Monthly_Presentation_Jan2026.pptx</span>
+                            </div>
+                        </td>
+                        <td>Presentation Deck</td>
+                        <td>Jan 1 - Jan 31, 2026</td>
+                        <td>3 days ago</td>
+                        <td><span class="status-badge ready">Ready</span></td>
+                        <td><button class="action-btn"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="report-name">
+                                <div class="report-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                                <span>North_Zone_Incident_Report.pdf</span>
+                            </div>
+                        </td>
+                        <td>Incident Report</td>
+                        <td>Jan 26 - Feb 3, 2026</td>
+                        <td>1 day ago</td>
+                        <td><span class="status-badge ready">Ready</span></td>
+                        <td><button class="action-btn"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        function selectReportType(card) {
+            document.querySelectorAll('.report-type-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('checked');
+                const checkbox = item.querySelector('input');
+                checkbox.checked = !checkbox.checked;
+            });
+        });
+
+        function generateReport() {
+            const btn = document.querySelector('.btn-generate');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Report Ready!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-magic"></i> Generate Report';
+                    btn.disabled = false;
+                    alert('📊 Report generated successfully!\n\nYour report is ready for download.');
+                }, 1500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
