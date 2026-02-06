@@ -109,9 +109,48 @@
         .map-placeholder i { font-size: 48px; color: var(--primary); margin-bottom: 12px; }
         .map-placeholder span { font-size: 13px; color: var(--text-secondary); }
 
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s ease; }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 20px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
+        .modal-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .modal-close { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .modal-close:hover { border-color: var(--danger); color: var(--danger); }
+        .modal-body { padding: 24px; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-secondary); }
+        .form-label .required { color: var(--danger); }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 14px; font-family: inherit; transition: all 0.2s; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,217,255,0.1); }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .form-select { cursor: pointer; }
+        .form-select option { background: var(--bg-dark); }
+        .priority-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .priority-option { padding: 12px; background: var(--bg-card); border: 2px solid var(--border); border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .priority-option:hover { border-color: var(--primary); }
+        .priority-option.active { border-color: var(--primary); background: rgba(0,217,255,0.1); }
+        .priority-option.urgent { border-color: var(--danger); }
+        .priority-option.urgent.active { background: rgba(255,68,68,0.1); }
+        .priority-option.high { border-color: var(--warning); }
+        .priority-option.high.active { background: rgba(255,215,0,0.1); }
+        .priority-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+        .priority-name { font-size: 14px; font-weight: 600; }
+        .modal-footer { padding: 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); }
+        .btn-secondary:hover { border-color: var(--text-secondary); }
+        .info-box { background: rgba(0,217,255,0.1); border: 1px solid rgba(0,217,255,0.3); border-radius: 10px; padding: 12px; display: flex; gap: 10px; margin-bottom: 20px; }
+        .info-box i { color: var(--primary); margin-top: 2px; }
+        .info-box-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
         @media (max-width: 1024px) {
             .content-grid { grid-template-columns: 1fr; }
             .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -339,10 +378,184 @@
         </div>
     </main>
 
+    <!-- Modal Schedule Fumigation -->
+    <div class="modal-overlay" id="scheduleModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-calendar-plus"></i>
+                    Schedule New Fumigation
+                </div>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="info-box-text">
+                        Schedule a fumigation operation based on outbreak risk predictions. Teams will be notified automatically and residents will receive advance warning.
+                    </div>
+                </div>
+
+                <form id="fumigationForm" onsubmit="submitSchedule(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Zone <span class="required">*</span></label>
+                            <select class="form-select" required>
+                                <option value="">Select zone...</option>
+                                <option value="north">North Zone</option>
+                                <option value="east">East Zone</option>
+                                <option value="center">Center Zone</option>
+                                <option value="south">South Zone</option>
+                                <option value="west">West Zone</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Specific Area <span class="required">*</span></label>
+                            <input type="text" class="form-input" placeholder="e.g., Plan 3000, Equipetrol" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Date <span class="required">*</span></label>
+                            <input type="date" class="form-input" value="2026-02-08" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Start Time <span class="required">*</span></label>
+                            <input type="time" class="form-input" value="06:00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Duration (hours)</label>
+                            <input type="number" class="form-input" placeholder="4" min="1" max="12" value="4">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Assigned Team <span class="required">*</span></label>
+                            <select class="form-select" required>
+                                <option value="">Select team...</option>
+                                <option value="alpha">Team Alpha</option>
+                                <option value="beta">Team Beta (Available)</option>
+                                <option value="gamma">Team Gamma</option>
+                                <option value="delta">Team Delta (Available)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Estimated Area (km²)</label>
+                            <input type="number" class="form-input" placeholder="10" step="0.1" value="10">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Expected Population Reached</label>
+                            <input type="number" class="form-input" placeholder="50000" step="1000" value="50000">
+                        </div>
+
+                        <div class="form-group full">
+                            <label class="form-label">Priority Level <span class="required">*</span></label>
+                            <div class="priority-options">
+                                <div class="priority-option urgent" onclick="selectPriority(this, 'urgent')">
+                                    <div class="priority-label">Urgent</div>
+                                    <div class="priority-name">Emergency</div>
+                                </div>
+                                <div class="priority-option high active" onclick="selectPriority(this, 'high')">
+                                    <div class="priority-label">High</div>
+                                    <div class="priority-name">Preventive</div>
+                                </div>
+                                <div class="priority-option" onclick="selectPriority(this, 'normal')">
+                                    <div class="priority-label">Normal</div>
+                                    <div class="priority-name">Routine</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="priority" value="high" id="priorityInput">
+                        </div>
+
+                        <div class="form-group full">
+                            <label class="form-label">Reason / Notes</label>
+                            <textarea class="form-textarea" placeholder="e.g., High dengue risk detected in pharmacy reports. +50% increase in fever medication sales."></textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" checked style="width: auto;">
+                                Notify residents 24 hours in advance
+                            </label>
+                        </div>
+
+                        <div class="form-group full">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" checked style="width: auto;">
+                                Send SMS alerts to team members
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="submitSchedule(event)">
+                    <i class="fas fa-check"></i> Schedule Fumigation
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function scheduleNew() {
-            alert('📅 Schedule New Fumigation\n\nThis would open a form to:\n• Select zone/area\n• Choose date and time\n• Assign team\n• Set priority level\n• Send notifications to residents');
+            document.getElementById('scheduleModal').classList.add('active');
         }
+
+        function closeModal() {
+            document.getElementById('scheduleModal').classList.remove('active');
+        }
+
+        function selectPriority(element, priority) {
+            // Remove active from all
+            document.querySelectorAll('.priority-option').forEach(opt => opt.classList.remove('active'));
+            // Add active to clicked
+            element.classList.add('active');
+            // Update hidden input
+            document.getElementById('priorityInput').value = priority;
+        }
+
+        function submitSchedule(event) {
+            if(event) event.preventDefault();
+            
+            // Get form data
+            const zone = document.querySelector('select.form-select').value;
+            const priority = document.getElementById('priorityInput').value;
+            
+            // Show success message
+            alert('✅ Fumigation Scheduled Successfully!\n\nThe operation has been added to the schedule.\n\n' + 
+                  '• Team members will be notified\n' +
+                  '• Residents will receive advance notice\n' +
+                  '• Equipment will be prepared\n' +
+                  '• Route will be optimized\n\n' +
+                  'You can track progress in the dashboard.');
+            
+            // Close modal
+            closeModal();
+            
+            // In a real app, this would send data to the backend
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('scheduleModal').addEventListener('click', function(e) {
+            if(e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'Escape') {
+                closeModal();
+            }
+        });
 
         function viewMap() {
             alert('🗺️ Opening coverage map...\n\nThis would show an interactive map with:\n• Completed fumigation areas (green)\n• Scheduled areas (blue)\n• Priority areas (red)');
