@@ -173,7 +173,7 @@ See [MIT-SOLVE-APPLICATION.md](MIT-SOLVE-APPLICATION.md) for the full applicatio
 
 ## 📞 Contact
 
-- **Email:** [your-email@example.com]
+- **Email:** [email@example.com]
 - **LinkedIn:** [Your LinkedIn]
 - **Location:** Santa Cruz, Bolivia 🇧🇴
 
